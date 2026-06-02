@@ -1,52 +1,476 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Motivation Hub</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Articles | Motivara</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- AOS CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <style>
+    /* Navbar Transparent */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: transparent;
+      transition: all 0.3s ease;
+      padding: 1rem 0;
+    }
+    .navbar.scrolled {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+    .navbar-brand img { height: 40px; }
+    .nav-link { color: #fff !important; font-weight: 500; margin: 0 10px; }
+    .navbar.scrolled .nav-link { color: #101111 !important; }
+
+    /* Hero */
+    .hero {
+      height: 60vh;
+      background: linear-gradient(135deg, rgba(13,110,253,0.85), rgba(0,0,0,0.6)),
+                  url('assets/hero-bg.jpg') center/cover no-repeat;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      text-align: center;
+    }
+    .hero h1 { font-size: 3rem; font-weight: 800; }
+    .hero p { font-size: 1.2rem; margin-top: 1rem; }
+
+    /* Section Titles */
+    .section-title { font-weight: 700; margin-bottom: .5rem; }
+    .section-subtitle { color: #6c757d; margin-bottom: 2rem; }
+
+    /* Category Badge */
+    .category-badge {
+      background: #e9ecef;
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    /* Cards */
+    .card img { height: 200px; object-fit: cover; }
+    .card:hover { transform: translateY(-5px); transition: 0.3s; }
+
+    /* Newsletter */
+    .newsletter {
+      background: linear-gradient(135deg, #0d6efd, #6610f2);
+      color: #fff;
+      text-align: center;
+      padding: 4rem 2rem;
+      border-radius: .75rem;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>Motivation Hub</h1>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="articles.html">Articles</a></li>
-                    <li><a href="skills.html">My Skills</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <img src="assets/motivara1.png" alt="Motivara Logo">
+      </a>
+      <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="articles.html">Articles</a></li>
+          <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        </ul>
+        <a href="#newsletter" class="btn btn-primary fw-semibold">Subscribe</a>
+      </div>
+    </div>
+  </nav>
 
-    <section id="articles">
-        <div class="container">
-            <h2>Motivation Articles</h2>
-            <div class="articles-list">
-                <article>
-                    <h3>Article Title 1</h3>
-                    <img src="images/article1.jpg" alt="Article 1 Image" class="responsive-image">
-                    <p>Brief description of the article content...</p>
-                    <a href="#">Read more</a>
-                </article>
-                <article>
-                    <h3>Article Title 2</h3>
-                    <img src="images/article2.jpg" alt="Article 2 Image" class="responsive-image">
-                    <p>Brief description of the article content...</p>
-                    <a href="#">Read more</a>
-                </article>
-                <!-- Add more articles here -->
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h1 data-aos="fade-up">Motivational Insights</h1>
+      <p data-aos="fade-up" data-aos-delay="200">Browse featured and latest articles for your growth journey</p>
+    </div>
+  </section>
+
+  <!-- Featured Articles -->
+  <section class="py-5">
+    <div class="container">
+      <h2 class="section-title text-center">Featured Articles</h2>
+      <p class="section-subtitle text-center">Spotlight reads handpicked for you</p>
+      <div class="row g-4" id="featured-articles" data-aos="fade-up"></div>
+    </div>
+  </section>
+
+  <!-- All Articles -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <h2 class="section-title text-center">All Articles</h2>
+      <p class="section-subtitle text-center">Explore by category</p>
+
+      <!-- Filters -->
+      <div class="d-flex justify-content-center mb-4 flex-wrap gap-2" id="category-filters">
+        <button class="btn btn-outline-primary active" data-category="All">All</button>
+        <button class="btn btn-outline-primary" data-category="Leadership">Leadership</button>
+        <button class="btn btn-outline-primary" data-category="Public Speaking">Public Speaking</button>
+        <button class="btn btn-outline-primary" data-category="Personal Growth">Personal Growth</button>
+        <button class="btn btn-outline-primary" data-category="Wellness">Wellness</button>
+        <button class="btn btn-outline-primary" data-category="Productivity">Productivity</button>
+        <button class="btn btn-outline-primary" data-category="Psychology">Psychology</button>
+        <button class="btn btn-outline-primary" data-category="Communication">Communication</button>
+      </div>
+
+      <!-- Articles Grid -->
+      <div class="row g-4" id="all-articles" data-aos="fade-up"></div>
+    </div>
+  </section>
+
+<!-- Newsletter -->
+<section id="newsletter" class="py-5 bg-light">
+  <div class="container text-center">
+    <h2 class="fw-bold mb-3">Subscribe to Our Newsletter</h2>
+    <p class="text-muted mb-4">
+      Get the latest motivational articles, updates, and events directly in your inbox.
+    </p>
+
+    <!-- Form -->
+    <form id="mc-form" class="row justify-content-center g-2">
+      <div class="col-md-6">
+        <input type="email" name="EMAIL" id="mce-EMAIL"
+          class="form-control form-control-lg"
+          placeholder="Enter your email address" required>
+      </div>
+
+      <div class="col-md-auto">
+        <button type="submit" class="btn btn-primary btn-lg fw-semibold">
+          Subscribe
+        </button>
+      </div>
+
+      <!-- Anti-bot hidden field -->
+      <div aria-hidden="true" style="position: absolute; left: -5000px;">
+        <input type="text" name="b_e6c0b6a8f3ec5663e15b333d7_45468931f6" tabindex="-1" value="">
+      </div>
+    </form>
+
+    <!-- Response Message -->
+    <div id="mc-response" class="mt-3"></div>
+  </div>
+</section>
+
+<!-- Script -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $("#mc-form").submit(function (e) {
+    e.preventDefault();
+
+    var email = $("#mce-EMAIL").val();
+    if (!email) return;
+
+    $.ajax({
+      type: "GET",
+      url: "https://gmail.us2.list-manage.com/subscribe/post-json?u=e6c0b6a8f3ec5663e15b333d7&id=45468931f6&c=?",
+      data: $(this).serialize(),
+      dataType: "json",
+      contentType: "application/json; charset=utf-8",
+      success: function (data) {
+        if (data.result === "success") {
+          $("#mc-response").html(
+            '<div class="alert alert-success fw-semibold">🎉 Thank you for subscribing!</div>'
+          );
+          $("#mc-form")[0].reset();
+        } else {
+          $("#mc-response").html(
+            '<div class="alert alert-danger fw-semibold">⚠️ ' + data.msg + "</div>"
+          );
+        }
+      },
+      error: function () {
+        $("#mc-response").html(
+          '<div class="alert alert-danger fw-semibold">⚠️ Could not connect to server. Try again later.</div>'
+        );
+      }
+    });
+  });
+</script>
+
+  
+
+  <!-- Modal -->
+  <div class="modal fade" id="articleModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="articleModalLabel"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="articleModalContent"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div id="footer"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1000, once: true });
+    window.addEventListener("scroll", () => {
+      document.querySelector(".navbar").classList.toggle("scrolled", window.scrollY > 50);
+    });
+  </script>
+
+<!-- Inline Articles Data + Logic -->
+<script>
+    const defaultImg = "assets/articles/default.jpg";
+  
+    const featuredArticles = [
+      {
+        category: "Leadership",
+        date: "March 15, 2024",
+        readTime: "8 min read",
+        title: "The Power of Positive Thinking in Leadership",
+        description: "Great leaders aren’t just skilled decision-makers — they shape the culture of their teams through mindset...",
+        full: "<p>Leadership begins in the mind. When leaders cultivate positivity, they influence their teams to see opportunities instead of obstacles. Positive thinking builds resilience, fosters innovation, and inspires others to push beyond limitations. History shows us that visionary leaders such as Nelson Mandela or Martin Luther King Jr. maintained a hopeful outlook even in times of trial, and this inspired multitudes to follow their cause. In this article, we’ll explore practical ways leaders can nurture positivity, reframe challenges, and create environments where growth flourishes.</p>",
+        img: "assets/articles/leadership-positive.jpg"
+      },
+      {
+        category: "Public Speaking",
+        date: "March 10, 2024",
+        readTime: "12 min read",
+        title: "Overcoming Public Speaking Anxiety: A Complete Guide",
+        description: "Stage fright is one of the most common fears, but it doesn’t have to control your voice...",
+        full: "<p>Public speaking anxiety affects millions of people worldwide. The fear often stems from a belief that others are judging us harshly. However, by understanding that audiences are usually supportive and by practicing effective techniques, you can overcome this fear. Strategies include controlled breathing, visualization of success, and gradual exposure to speaking opportunities. With consistency, anyone can transform nervous energy into dynamic stage presence and deliver speeches with confidence.</p>",
+        img: "assets/articles/art of.jpeg"
+      }
+    ];
+  
+    const allArticles = [
+      {
+        category: "Personal Growth",
+        title: "Building Resilience in Challenging Times",
+        description: "Life is full of unexpected storms, but resilience is what helps us rise above them...",
+        readTime: "10 min read",
+        full: "<p>Resilience is not simply enduring pain; it’s about bouncing back stronger. It requires developing habits of gratitude, adaptability, and perseverance. Whether through daily affirmations, a strong support network, or reframing setbacks as lessons, resilience empowers us to thrive. In tough times, resilience transforms challenges into stepping stones for future victories.</p>",
+        img: "assets/articles/resilience.jpg"
+      },
+      {
+        category: "Communication",
+        title: "The Art of Effective Communication",
+        description: "Words have power — they can inspire, persuade, or divide...",
+        readTime: "6 min read",
+        full: "<p>Effective communication isn’t just about speaking clearly — it’s about listening actively, empathizing, and connecting with people. Great communicators use body language, storytelling, and emotional intelligence to create trust. Miscommunication leads to conflict, while clear communication builds harmony, especially in workplaces and families.</p>",
+        img: "assets/articles/peer talks.jpeg"
+      },
+      {
+        category: "Productivity",
+        title: "Goal Setting That Actually Works",
+        description: "Why do so many goals fail? Because they’re built on vague intentions instead of structured systems...",
+        readTime: "9 min read",
+        full: "<p>Goals often fail because they lack clarity and accountability. SMART goals — Specific, Measurable, Achievable, Relevant, and Time-bound — provide a proven framework. Pairing goals with consistent habits and tracking progress ensures sustainable success. Instead of lofty resolutions, focus on daily, incremental steps that compound over time.</p>",
+        img: "assets/articles/goal-setting.jpg"
+      },
+      {
+        category: "Psychology",
+        title: "Understanding Human Motivation",
+        description: "What truly drives people? Beyond money and recognition lies a deeper psychology of purpose...",
+        readTime: "11 min read",
+        full: "<p>Motivation is complex — influenced by intrinsic drives like passion and curiosity, and extrinsic factors like rewards and recognition. Research shows that people who connect their work to a sense of purpose perform better and stay more fulfilled. To stay motivated, align tasks with your values and regularly remind yourself of the bigger picture.</p>",
+        img: "assets/articles/motivation.jpg"
+      },
+      {
+        category: "Wellness",
+        title: "Balancing Work and Life in a Busy World",
+        description: "Modern life often demands more than we can give, leaving many drained and overwhelmed...",
+        readTime: "7 min read",
+        full: "<p>Work-life balance is about creating harmony between responsibilities and personal well-being. This includes setting boundaries, prioritizing self-care, and recognizing that rest is productive. By learning to say ‘no’ and managing time wisely, you’ll create space for both professional growth and personal happiness.</p>",
+        img: "assets/articles/work-life-balance.jpg"
+      },
+      {
+        category: "Leadership",
+        title: "Servant Leadership: Leading by Serving Others",
+        description: "True leadership is not about authority — it’s about service...",
+        readTime: "8 min read",
+        full: "<p>Servant leadership shifts the focus from power to responsibility. It is rooted in empathy, humility, and the belief that leaders exist to elevate those they lead. By prioritizing people over profit and listening more than commanding, servant leaders create lasting impact and stronger communities.</p>",
+        img: "assets/articles/servant-leadership.jpg"
+      },
+      {
+        category: "Public Speaking",
+        title: "Crafting Stories That Captivate Audiences",
+        description: "Facts tell, but stories sell. This article shows you how to weave narratives that spark emotion...",
+        readTime: "9 min read",
+        full: "<p>Stories move audiences in ways data alone never can. From ancient cultures to modern boardrooms, storytelling remains the most effective way to persuade and inspire. Use the three-act structure, relatable characters, and emotional arcs to turn your message into a memorable journey.</p>",
+        img: "assets/articles/storytelling.jpg"
+      },
+      {
+        category: "Personal Growth",
+        title: "Developing a Growth Mindset",
+        description: "Your mindset determines your future. Learn how to move from fixed thinking...",
+        readTime: "6 min read",
+        full: "<p>A growth mindset sees challenges as opportunities for development, not as threats to competence. Embracing failure as feedback, practicing curiosity, and celebrating small wins fosters continuous learning and adaptability in every area of life.</p>",
+        img: "assets/articles/growth-mindset.png"
+      },
+      {
+        category: "Productivity",
+        title: "Mastering Time Management",
+        description: "Time is the most valuable resource — learn how to manage it effectively...",
+        readTime: "10 min read",
+        full: "<p>Time management is about priorities, not clocks. Techniques like the Eisenhower Matrix, Pomodoro Technique, and batching tasks reduce overwhelm. Protecting time for deep work while eliminating distractions helps you achieve more with less effort.</p>",
+        img: "assets/articles/time-management.png"
+      },
+      {
+        category: "Psychology",
+        title: "The Science of Habits",
+        description: "Habits shape our daily lives — discover how to break bad ones and form new ones...",
+        readTime: "12 min read",
+        full: "<p>Habits form through repetition and cues in our environment. Breaking bad habits requires disrupting the triggers, while building good ones means attaching them to existing routines. James Clear’s ‘habit stacking’ principle is a simple yet powerful way to rewire behavior.</p>",
+        img: "assets/articles/habits.jpg"
+      },
+      {
+        category: "Communication",
+        title: "The Listening Advantage",
+        description: "Great leaders and communicators don’t just talk — they listen deeply...",
+        readTime: "7 min read",
+        full: "<p>Listening builds trust, reduces conflict, and makes people feel valued. Active listening — showing empathy, asking clarifying questions, and giving full attention — can transform relationships at work, in families, and in communities.</p>",
+        img: "assets/articles/listening.jpg"
+      },
+      {
+        category: "Wellness",
+        title: "Mindfulness for Modern Living",
+        description: "In a world of constant noise, mindfulness offers clarity and calm...",
+        readTime: "9 min read",
+        full: "<p>Mindfulness is the practice of living fully in the present moment. From meditation to mindful eating, these practices reduce stress and increase focus. Scientific studies confirm that mindfulness lowers anxiety, improves sleep, and enhances emotional well-being.</p>",
+        img: "assets/articles/wellness.jpg"
+      }
+    ];
+  
+    function renderFeaturedArticles() {
+      const container = document.querySelector("#featured-articles");
+      container.innerHTML = featuredArticles.map((article, idx) => `
+        <div class="col-md-6">
+          <div class="card shadow-hover h-100 article-card" data-index="${idx}" data-type="featured">
+            <img src="${article.img || defaultImg}" class="card-img-top" alt="${article.title}">
+            <div class="card-body">
+              <div class="d-flex justify-content-between mb-2">
+                <span class="category-badge">${article.category}</span>
+                <small class="text-muted"><i class="bi bi-calendar me-1"></i> ${article.date} • ${article.readTime}</small>
+              </div>
+              <h5 class="fw-bold">${article.title}</h5>
+              <p class="text-muted">${article.description}</p>
+              <button class="btn btn-link text-primary p-0">Read Full Article <i class="bi bi-arrow-right ms-1"></i></button>
             </div>
+          </div>
         </div>
-    </section>
+      `).join("");
+    }
+  
+    function renderAllArticles(list) {
+      const container = document.querySelector("#all-articles");
+      container.innerHTML = list.map((article, idx) => `
+        <div class="col-md-4">
+          <div class="card shadow-hover h-100 article-card" data-index="${idx}" data-type="all">
+            <img src="${article.img || defaultImg}" class="card-img-top" alt="${article.title}">
+            <div class="card-body">
+              <span class="category-badge mb-2">${article.category}</span>
+              <h6 class="fw-bold">${article.title}</h6>
+              <p class="text-muted small">${article.description}</p>
+              <small class="text-muted"><i class="bi bi-clock me-1"></i> ${article.readTime}</small>
+            </div>
+          </div>
+        </div>
+      `).join("");
+    }
+  
+    document.addEventListener("DOMContentLoaded", () => {
+      renderFeaturedArticles();
+      renderAllArticles(allArticles);
+  
+      // Filter
+      document.querySelectorAll("#category-filters button").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll("#category-filters button").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          const cat = btn.getAttribute("data-category");
+          const filtered = (cat === "All") ? allArticles : allArticles.filter(a => a.category === cat);
+          renderAllArticles(filtered);
+        });
+      });
+  
+      // Modal logic
+      document.body.addEventListener("click", e => {
+        const card = e.target.closest(".article-card");
+        if (card) {
+          const type = card.dataset.type;
+          const index = card.dataset.index;
+          const article = type === "featured" ? featuredArticles[index] : allArticles[index];
+          document.getElementById("articleModalLabel").textContent = article.title;
+          document.getElementById("articleModalContent").innerHTML = `
+            <img src="${article.img || defaultImg}" class="img-fluid rounded mb-3" alt="${article.title}">
+            ${article.full || article.description}
+          `;
+          const modal = new bootstrap.Modal(document.getElementById("articleModal"));
+          modal.show();
+        }
+      });
+  
+      // Newsletter
+      const form = document.getElementById("newsletter-form");
+      const msg = document.getElementById("newsletter-msg");
+      form.addEventListener("submit", e => {
+        e.preventDefault();
+        const email = form.querySelector("input").value;
+        msg.textContent = `✅ Thank you for subscribing, ${email}!`;
+        form.reset();
+      });
+    });
+        // Load footer + attach Mailchimp subscribe
+        fetch("footer.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("footer").innerHTML = data;
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 Motivation Hub. All rights reserved.</p>
-        </div>
-    </footer>
+        // ✅ Attach Mailchimp subscribe after footer loads
+        const form = document.getElementById("footer-subscribe-form");
+        if (form) {
+          form.addEventListener("submit", function (e) {
+            e.preventDefault();
+            $.ajax({
+              type: "GET",
+              url: "https://gmail.us2.list-manage.com/subscribe/post-json?u=e6c0b6a8f3ec5663e15b333d7&id=45468931f6&c=?",
+              data: $(this).serialize(),
+              dataType: "jsonp",
+              success: function (data) {
+                if (data.result === "success") {
+                  Swal.fire("🎉 Subscribed!", "Check your inbox for updates.", "success");
+                  form.reset();
+                } else {
+                  Swal.fire("⚠️ Oops!", $(data.msg).text() || "Something went wrong.", "error");
+                }
+              },
+              error: function () {
+                Swal.fire("⚠️ Error", "Could not connect to Motivara NewsLetter.", "error");
+              }
+            });
+          });
+        }
+      });
+  </script>
+  
+  </body>
+  </html>
+  
 </body>
 </html>

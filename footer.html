@@ -1,0 +1,157 @@
+<!-- footer.html -->
+<footer class="bg-light text-dark border-top shadow-sm">
+  <div class="container py-5">
+    <div class="row">
+      <!-- Brand -->
+      <div class="col-md-3 mb-4">
+        <h3 class="h5 fw-bold mb-3">Motivara</h3>
+        <p class="text-muted">
+          Empowering individuals and organizations through motivational speaking, 
+          counselling, and transformational guidance.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="col-md-3 mb-4">
+        <h4 class="h6 fw-bold mb-3">Quick Links</h4>
+        <ul class="list-unstyled">
+          <li class="mb-2">
+            <a href="index.html" class="text-dark text-decoration-none d-flex align-items-center">
+              <i class="bi bi-house-door-fill text-primary me-2"></i> Home
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="services.html" class="text-dark text-decoration-none d-flex align-items-center">
+              <i class="bi bi-briefcase-fill text-success me-2"></i> Services
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="articles.html" class="text-dark text-decoration-none d-flex align-items-center">
+              <i class="bi bi-journal-text text-warning me-2"></i> Articles
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="contact.html" class="text-dark text-decoration-none d-flex align-items-center">
+              <i class="bi bi-envelope-fill text-danger me-2"></i> Contact
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Socials -->
+      <div class="col-md-3 mb-4">
+        <h4 class="h6 fw-bold mb-3">Connect With Me</h4>
+        <div class="d-flex gap-3">
+          <a href="https://facebook.com" target="_blank" class="social-link">
+            <i class="bi bi-facebook"></i>
+          </a>
+          <a href="https://twitter.com" target="_blank" class="social-link">
+            <i class="bi bi-twitter"></i>
+          </a>
+          <a href="https://linkedin.com" target="_blank" class="social-link">
+            <i class="bi bi-linkedin"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Newsletter in Footer -->
+<div class="col-md-3 mb-4">
+  <h4 class="h6 fw-bold mb-3">Subscribe</h4>
+  <p class="text-muted">Get motivational insights straight to your inbox.</p>
+  <form id="footer-subscribe-form">
+    <div class="input-group">
+      <input type="email" name="EMAIL" id="footer-email"
+             class="form-control rounded-start" 
+             placeholder="Enter your email" required>
+      <button class="btn btn-primary fw-semibold rounded-end" type="submit">
+        Subscribe
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $("#footer-subscribe-form").submit(function(e) {
+    e.preventDefault();
+
+    $.ajax({
+      type: "GET",
+      url: "https://gmail.us2.list-manage.com/subscribe/post-json?u=e6c0b6a8f3ec5663e15b333d7&id=45468931f6&c=?",
+      data: $(this).serialize(),
+      dataType: "jsonp", // 👈 important
+      success: function(data) {
+        if (data.result === "success") {
+          Swal.fire({
+            title: "🎉 Subscribed!",
+            text: "Thank you for joining Motivara. Check your inbox for updates!",
+            icon: "success",
+            confirmButtonColor: "#0d6efd"
+          });
+          $("#footer-subscribe-form")[0].reset();
+        } else {
+          Swal.fire({
+            title: "⚠️ Oops!",
+            text: $(data.msg).text() || "Something went wrong. Try again.",
+            icon: "error",
+            confirmButtonColor: "#0d6efd"
+          });
+        }
+      },
+      error: function() {
+        Swal.fire({
+          title: "⚠️ Connection Error",
+          text: "Could not connect to Mailchimp. Please try again later.",
+          icon: "error",
+          confirmButtonColor: "#0d6efd"
+        });
+      }
+    });
+  });
+</script>
+
+    <!-- Bottom -->
+    <div class="border-top pt-4 mt-4 text-center">
+      <p class="mb-0 text-muted">© <span id="year"></span> Motivara. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Footer Custom Styling -->
+<style>
+  .social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e9ecef;
+    color: #333;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+  }
+  .social-link:hover {
+    background: #0d6efd;
+    color: #fff;
+    transform: translateY(-3px);
+  }
+  footer a:hover {
+    color: #0d6efd !important;
+  }
+  #footer-subscribe-form input {
+    border: 1px solid #ced4da;
+  }
+  #footer-subscribe-form input:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13,110,253,.25);
+  }
+</style>
+
+<!-- Script to auto-update year -->
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+

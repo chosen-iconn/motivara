@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Newsletter | SpeakWise</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #0d6efd, #6610f2);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+    .newsletter-box {
+      background: #fff;
+      color: #333;
+      padding: 3rem 2rem;
+      border-radius: 20px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+    .newsletter-box img.logo {
+      height: 70px;
+      margin-bottom: 1rem;
+    }
+    .newsletter-box h1 {
+      font-weight: 800;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .newsletter-box p {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+    .newsletter-box input {
+      border-radius: 10px;
+      padding: 0.75rem;
+    }
+    .newsletter-box button {
+      border-radius: 10px;
+      padding: 0.75rem 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="newsletter-box">
+    <!-- Logo -->
+    <img src="assets/motivara1.png" alt="SpeakWise Logo" class="logo">
+
+    <h1><i class="bi bi-envelope-paper-heart text-primary"></i> Join Our Newsletter</h1>
+    <p>Get motivational tips, event updates, and exclusive resources directly in your inbox.</p>
+
+    <form id="newsletter-form">
+      <div class="input-group mb-3">
+        <input type="email" class="form-control" name="EMAIL" placeholder="Enter your email address" required>
+        <button class="btn btn-primary" type="submit">Subscribe</button>
+      </div>
+    </form>
+
+    <p class="text-muted small">We respect your privacy. Unsubscribe anytime.</p>
+    <a href="index.html" class="btn btn-outline-secondary mt-3"><i class="bi bi-arrow-left"></i> Back to Home</a>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    // Newsletter submission (Mailchimp JSONP)
+    $("#newsletter-form").on("submit", function(e) {
+      e.preventDefault();
+      $.ajax({
+        type: "GET",
+        url: "https://gmail.us2.list-manage.com/subscribe/post-json?u=e6c0b6a8f3ec5663e15b333d7&id=45468931f6&c=?",
+        data: $(this).serialize(),
+        dataType: "jsonp",
+        success: function (data) {
+          if (data.result === "success") {
+            Swal.fire("🎉 Subscribed!", "Check your inbox for updates.", "success");
+            $("#newsletter-form")[0].reset();
+          } else {
+            Swal.fire("⚠️ Oops!", $(data.msg).text() || "Something went wrong.", "error");
+          }
+        },
+        error: function () {
+          Swal.fire("⚠️ Error", "Could not connect to Mailchimp.", "error");
+        }
+      });
+    });
+  </script>
+</body>
+</html>

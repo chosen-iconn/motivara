@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://shepherd-samuel.github.io/sitemap.xml

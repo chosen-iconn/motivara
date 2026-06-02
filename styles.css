@@ -1,163 +1,305 @@
-/* General Styles */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
-    color: #333;
-    background-color: #f9f9f9;
-}
 
-.container {
-    width: 80%;
-    margin: auto;
-    overflow: hidden;
-}
+<!-- Inline Articles Data + Logic -->
+<script>
+  const defaultImg = "assets/articles/default.jpg";
 
-/* Header Styles */
-header {
-    background: #35424a;
-    color: #ffffff;
-    padding-top: 30px;
-    min-height: 70px;
-    border-bottom: #e8491d 3px solid;
-}
+  const featuredArticles = [
+    {
+      category: "Leadership",
+      date: "March 15, 2024",
+      readTime: "8 min read",
+      title: "The Power of Positive Thinking in Leadership",
+      description: "Great leaders aren’t just skilled decision-makers — they shape the culture of their teams through mindset...",
+      full: "<p>Leadership begins in the mind. When leaders cultivate positivity, they influence their teams to see opportunities instead of obstacles. Positive thinking builds resilience, fosters innovation, and inspires others to push beyond limitations. History shows us that visionary leaders such as Nelson Mandela or Martin Luther King Jr. maintained a hopeful outlook even in times of trial, and this inspired multitudes to follow their cause. In this article, we’ll explore practical ways leaders can nurture positivity, reframe challenges, and create environments where growth flourishes.</p>",
+      img: "assets/articles/leadership-positive.jpg"
+    },
+    {
+      category: "Public Speaking",
+      date: "March 10, 2024",
+      readTime: "12 min read",
+      title: "Overcoming Public Speaking Anxiety: A Complete Guide",
+      description: "Stage fright is one of the most common fears, but it doesn’t have to control your voice...",
+      full: "<p>Public speaking anxiety affects millions of people worldwide. The fear often stems from a belief that others are judging us harshly. However, by understanding that audiences are usually supportive and by practicing effective techniques, you can overcome this fear. Strategies include controlled breathing, visualization of success, and gradual exposure to speaking opportunities. With consistency, anyone can transform nervous energy into dynamic stage presence and deliver speeches with confidence.</p>",
+      img: "assets/articles/art of.jpeg"
+    }
+  ];
 
-header a {
-    color: #ffffff;
-    text-decoration: none;
-    text-transform: uppercase;
-    font-size: 16px;
-}
+  const allArticles = [
+    {
+      category: "Personal Growth",
+      title: "Building Resilience in Challenging Times",
+      description: "Life is full of unexpected storms, but resilience is what helps us rise above them...",
+      readTime: "10 min read",
+      full: "<p>Resilience is not simply enduring pain; it’s about bouncing back stronger. It requires developing habits of gratitude, adaptability, and perseverance. Whether through daily affirmations, a strong support network, or reframing setbacks as lessons, resilience empowers us to thrive. In tough times, resilience transforms challenges into stepping stones for future victories.</p>",
+      img: "assets/articles/resilience.jpg"
+    },
+    {
+      category: "Communication",
+      title: "The Art of Effective Communication",
+      description: "Words have power — they can inspire, persuade, or divide...",
+      readTime: "6 min read",
+      full: "<p>Effective communication isn’t just about speaking clearly — it’s about listening actively, empathizing, and connecting with people. Great communicators use body language, storytelling, and emotional intelligence to create trust. Miscommunication leads to conflict, while clear communication builds harmony, especially in workplaces and families.</p>",
+      img: "assets/articles/peer talks.jpeg"
+    },
+    {
+      category: "Productivity",
+      title: "Goal Setting That Actually Works",
+      description: "Why do so many goals fail? Because they’re built on vague intentions instead of structured systems...",
+      readTime: "9 min read",
+      full: "<p>Goals often fail because they lack clarity and accountability. SMART goals — Specific, Measurable, Achievable, Relevant, and Time-bound — provide a proven framework. Pairing goals with consistent habits and tracking progress ensures sustainable success. Instead of lofty resolutions, focus on daily, incremental steps that compound over time.</p>",
+      img: "assets/articles/goal-setting.jpg"
+    },
+    {
+      category: "Psychology",
+      title: "Understanding Human Motivation",
+      description: "What truly drives people? Beyond money and recognition lies a deeper psychology of purpose...",
+      readTime: "11 min read",
+      full: "<p>Motivation is complex — influenced by intrinsic drives like passion and curiosity, and extrinsic factors like rewards and recognition. Research shows that people who connect their work to a sense of purpose perform better and stay more fulfilled. To stay motivated, align tasks with your values and regularly remind yourself of the bigger picture.</p>",
+      img: "assets/articles/motivation.jpg"
+    },
+    {
+      category: "Wellness",
+      title: "Balancing Work and Life in a Busy World",
+      description: "Modern life often demands more than we can give, leaving many drained and overwhelmed...",
+      readTime: "7 min read",
+      full: "<p>Work-life balance is about creating harmony between responsibilities and personal well-being. This includes setting boundaries, prioritizing self-care, and recognizing that rest is productive. By learning to say ‘no’ and managing time wisely, you’ll create space for both professional growth and personal happiness.</p>",
+      img: "assets/articles/work-life-balance.jpg"
+    },
+    {
+      category: "Leadership",
+      title: "Servant Leadership: Leading by Serving Others",
+      description: "True leadership is not about authority — it’s about service...",
+      readTime: "8 min read",
+      full: "<p>Servant leadership shifts the focus from power to responsibility. It is rooted in empathy, humility, and the belief that leaders exist to elevate those they lead. By prioritizing people over profit and listening more than commanding, servant leaders create lasting impact and stronger communities.</p>",
+      img: "assets/articles/servant-leadership.jpg"
+    },
+    {
+      category: "Public Speaking",
+      title: "Crafting Stories That Captivate Audiences",
+      description: "Facts tell, but stories sell. This article shows you how to weave narratives that spark emotion...",
+      readTime: "9 min read",
+      full: "<p>Stories move audiences in ways data alone never can. From ancient cultures to modern boardrooms, storytelling remains the most effective way to persuade and inspire. Use the three-act structure, relatable characters, and emotional arcs to turn your message into a memorable journey.</p>",
+      img: "assets/articles/storytelling.jpg"
+    },
+    {
+      category: "Personal Growth",
+      title: "Developing a Growth Mindset",
+      description: "Your mindset determines your future. Learn how to move from fixed thinking...",
+      readTime: "6 min read",
+      full: "<p>A growth mindset sees challenges as opportunities for development, not as threats to competence. Embracing failure as feedback, practicing curiosity, and celebrating small wins fosters continuous learning and adaptability in every area of life.</p>",
+      img: "assets/articles/growth-mindset.png"
+    },
+    {
+      category: "Productivity",
+      title: "Mastering Time Management",
+      description: "Time is the most valuable resource — learn how to manage it effectively...",
+      readTime: "10 min read",
+      full: "<p>Time management is about priorities, not clocks. Techniques like the Eisenhower Matrix, Pomodoro Technique, and batching tasks reduce overwhelm. Protecting time for deep work while eliminating distractions helps you achieve more with less effort.</p>",
+      img: "assets/articles/time-management.png"
+    },
+    {
+      category: "Psychology",
+      title: "The Science of Habits",
+      description: "Habits shape our daily lives — discover how to break bad ones and form new ones...",
+      readTime: "12 min read",
+      full: "<p>Habits form through repetition and cues in our environment. Breaking bad habits requires disrupting the triggers, while building good ones means attaching them to existing routines. James Clear’s ‘habit stacking’ principle is a simple yet powerful way to rewire behavior.</p>",
+      img: "assets/articles/habits.jpg"
+    },
+    {
+      category: "Communication",
+      title: "The Listening Advantage",
+      description: "Great leaders and communicators don’t just talk — they listen deeply...",
+      readTime: "7 min read",
+      full: "<p>Listening builds trust, reduces conflict, and makes people feel valued. Active listening — showing empathy, asking clarifying questions, and giving full attention — can transform relationships at work, in families, and in communities.</p>",
+      img: "assets/articles/listening.jpg"
+    },
+    {
+      category: "Wellness",
+      title: "Mindfulness for Modern Living",
+      description: "In a world of constant noise, mindfulness offers clarity and calm...",
+      readTime: "9 min read",
+      full: "<p>Mindfulness is the practice of living fully in the present moment. From meditation to mindful eating, these practices reduce stress and increase focus. Scientific studies confirm that mindfulness lowers anxiety, improves sleep, and enhances emotional well-being.</p>",
+      img: "assets/articles/wellness.jpg"
+    }
+  ];
 
-header ul {
-    padding: 0;
-    list-style: none;
-    margin: 0;
-    display: flex;
-    justify-content: flex-end;
-}
+  function renderFeaturedArticles() {
+    const container = document.querySelector("#featured-articles");
+    container.innerHTML = featuredArticles.map((article, idx) => `
+      <div class="col-md-6">
+        <div class="card shadow-hover h-100 article-card" data-index="${idx}" data-type="featured">
+          <img src="${article.img || defaultImg}" class="card-img-top" alt="${article.title}">
+          <div class="card-body">
+            <div class="d-flex justify-content-between mb-2">
+              <span class="category-badge">${article.category}</span>
+              <small class="text-muted"><i class="bi bi-calendar me-1"></i> ${article.date} • ${article.readTime}</small>
+            </div>
+            <h5 class="fw-bold">${article.title}</h5>
+            <p class="text-muted">${article.description}</p>
+            <button class="btn btn-link text-primary p-0">Read Full Article <i class="bi bi-arrow-right ms-1"></i></button>
+          </div>
+        </div>
+      </div>
+    `).join("");
+  }
 
-header li {
-    margin-left: 20px;
-}
+  function renderAllArticles(list) {
+    const container = document.querySelector("#all-articles");
+    container.innerHTML = list.map((article, idx) => `
+      <div class="col-md-4">
+        <div class="card shadow-hover h-100 article-card" data-index="${idx}" data-type="all">
+          <img src="${article.img || defaultImg}" class="card-img-top" alt="${article.title}">
+          <div class="card-body">
+            <span class="category-badge mb-2">${article.category}</span>
+            <h6 class="fw-bold">${article.title}</h6>
+            <p class="text-muted small">${article.description}</p>
+            <small class="text-muted"><i class="bi bi-clock me-1"></i> ${article.readTime}</small>
+          </div>
+        </div>
+      </div>
+    `).join("");
+  }
 
-header nav ul li a:hover {
-    color: #e8491d;
-}
+  document.addEventListener("DOMContentLoaded", () => {
+    renderFeaturedArticles();
+    renderAllArticles(allArticles);
 
-/* Section Styles */
-section {
-    padding: 20px 0;
-    margin: 20px 0;
-    background: #ffffff;
-    border: 1px solid #dddddd;
-    border-radius: 5px;
-}
+    // Filter
+    document.querySelectorAll("#category-filters button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("#category-filters button").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const cat = btn.getAttribute("data-category");
+        const filtered = (cat === "All") ? allArticles : allArticles.filter(a => a.category === cat);
+        renderAllArticles(filtered);
+      });
+    });
 
-section h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #35424a;
-}
+    // Modal logic
+    document.body.addEventListener("click", e => {
+      const card = e.target.closest(".article-card");
+      if (card) {
+        const type = card.dataset.type;
+        const index = card.dataset.index;
+        const article = type === "featured" ? featuredArticles[index] : allArticles[index];
+        document.getElementById("articleModalLabel").textContent = article.title;
+        document.getElementById("articleModalContent").innerHTML = `
+          <img src="${article.img || defaultImg}" class="img-fluid rounded mb-3" alt="${article.title}">
+          ${article.full || article.description}
+        `;
+        const modal = new bootstrap.Modal(document.getElementById("articleModal"));
+        modal.show();
+      }
+    });
 
-/* Responsive Image Styles */
-.responsive-image {
-    width: 50%;
-    border-radius: 50%;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
-}
+    // Newsletter
+    const form = document.getElementById("newsletter-form");
+    const msg = document.getElementById("newsletter-msg");
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      const email = form.querySelector("input").value;
+      msg.textContent = `✅ Thank you for subscribing, ${email}!`;
+      form.reset();
+    });
+  });
+  fetch("footer.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("footer").innerHTML = html;
+    });
+</script>
+<!-- footer.html -->
+<footer class="bg-light text-dark border-top shadow-sm">
+  <div class="container py-5">
+    <div class="row">
+      <!-- Brand -->
+      <div class="col-md-4 mb-4">
+        <h3 class="h5 fw-bold mb-3">SpeakWise</h3>
+        <p class="text-muted">
+          Empowering individuals and organizations through motivational speaking, 
+          counselling, and transformational guidance.
+        </p>
+      </div>
 
-/* About Section Image Styles */
-#about img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 20px auto;
-    border-radius: 15px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-}
+      <!-- Quick Links -->
+      <div class="col-md-4 mb-4">
+        <h4 class="h6 fw-bold mb-3">Quick Links</h4>
+        <ul class="list-unstyled">
+          <li class="mb-2">
+            <a href="index.html" class="text-dark text-decoration-none d-flex align-items-center">
+              <i class="bi bi-house-door-fill text-primary me-2"></i> Home
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="services.html" class="text-dark text-decoration-none d-flex align-items-center">
+              <i class="bi bi-briefcase-fill text-success me-2"></i> Services
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="articles.html" class="text-dark text-decoration-none d-flex align-items-center">
+              <i class="bi bi-journal-text text-warning me-2"></i> Articles
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="contact.html" class="text-dark text-decoration-none d-flex align-items-center">
+              <i class="bi bi-envelope-fill text-danger me-2"></i> Contact
+            </a>
+          </li>
+        </ul>
+      </div>
 
-/* Contact Section Image Styles */
-#contact img {
-    max-width: 50%;
-    height: auto;
-    display: block;
-    margin: 20px auto;
-    border-radius: 50%;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-}
+      <!-- Socials -->
+      <div class="col-md-4 mb-4">
+        <h4 class="h6 fw-bold mb-3">Connect With Me</h4>
+        <div class="d-flex gap-3">
+          <a href="https://facebook.com" target="_blank" class="social-link">
+            <i class="bi bi-facebook"></i>
+          </a>
+          <a href="https://twitter.com" target="_blank" class="social-link">
+            <i class="bi bi-twitter"></i>
+          </a>
+          <a href="https://linkedin.com" target="_blank" class="social-link">
+            <i class="bi bi-linkedin"></i>
+          </a>
+        </div>
+      </div>
+    </div>
 
-/* Contact Form Styles */
-form {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background: #ffffff;
-    border: 1px solid #dddddd;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+    <!-- Bottom -->
+    <div class="border-top pt-4 mt-4 text-center">
+      <p class="mb-0 text-muted">© <span id="year"></span> SpeakWise. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
 
-form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #333;
-}
-
-form input, form textarea, form button {
-    width: 100%;
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #dddddd;
-    border-radius: 5px;
-}
-
-form button {
-    background: #e8491d;
-    color: #ffffff;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-}
-
-form button:hover {
-    background: #cf3c14;
-}
-
-/* Skills Section */
-.skills-list {
-    display: flex;
+<!-- Footer Custom Styling -->
+<style>
+  .social-link {
     display: inline-flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-}
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e9ecef;
+    color: #333;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+  }
+  .social-link:hover {
+    background: #0d6efd;
+    color: #fff;
+    transform: translateY(-3px);
+  }
+  footer a:hover {
+    color: #0d6efd !important;
+  }
+</style>
 
-.skill-item {
-    width: 30%;
-    text-align: center;
-    margin-bottom: 20px;
-}
+<!-- Script to auto-update year -->
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
 
-.skill-item img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 20%; /* Creates a squircle effect */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.skill-item h3 {
-    margin-top: 10px;
-    color: #e8491d;
-}
-
-/* Footer Styles */
-footer {
-    background: #35424a;
-    color: #ffffff;
-    text-align: center;
-    padding: 10px 0;
-    margin-top: 20px;
-}
+</body>
+</html>
