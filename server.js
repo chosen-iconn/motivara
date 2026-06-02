@@ -1,0 +1,30 @@
+const nodemailer = require('nodemailer');
+
+// Configure Nodemailer transporter
+const transporter = nodemailer.createTransport({
+    service: 'gmail', // You can use another service if needed
+    auth: {
+        user: 'mutavasamuel1@gmail.com', // Replace with your email
+        pass: 'mutava9131', // Replace with your email password or app password
+    },
+});
+
+// API route to handle contact form submissions
+app.post('/contact', async (req, res) => {
+    const { name, email, message } = req.body;
+
+    const mailOptions = {
+        from: email,
+        to: 'your-email@gmail.com', // Replace with your email
+        subject: New message from ${name},
+        text: Message: ${message}\n\nFrom: ${name} (${email}),
+    };
+
+    try {
+        await transporter.sendMail(mailOptions);
+        res.status(200).json({ message: 'Thank you for reaching out! I will get back to you soon.' });
+    } catch (error) {
+        console.error('Error sending email:', error);
+        res.status(500).json({ message: 'Failed to send message. Please try again later.' });
+    }
+});
