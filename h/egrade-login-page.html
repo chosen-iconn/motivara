@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign in to eGrade — Secure Login</title>
+<meta name="description" content="Sign in to your eGrade account as an Administrator, Teacher, Parent, or Student.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<!--
+  SECURITY NOTE FOR IMPLEMENTERS (read before wiring this up to a real backend):
+  This file is a front-end login experience only. It has no server, so all
+  "authentication" here is simulated for demonstration. A production deployment
+  MUST also implement, server-side:
+    - TLS everywhere (HSTS), no login form ever served over plain HTTP
+    - Passwords hashed with bcrypt/argon2 (never stored or compared in plaintext)
+    - Rate limiting + progressive delays on failed attempts, per-account AND per-IP
+    - A real CAPTCHA/challenge (e.g. hCaptcha) after repeated failures
+    - Server-generated, single-use CSRF tokens validated on submit
+    - Session cookies set with HttpOnly, Secure, SameSite=Strict
+    - True multi-factor auth (TOTP/WebAuthn) — the OTP step below is a UI mock
+    - Server-side role authorization checks (never trust the client-selected role)
+    - Audit logging of login attempts, IP, device, and location for anomaly detection
+    - Account lockout / notification-by-email on suspicious activity
+-->
+<style>
+  :root{
+    --green-900:#004000;
+    --green-800:#0a5c0a;
+    --green-050:#e9f1e7;
+    --orange-500:#ff6600;
+    --orange-600:#e35800;
+    --bg:#FAFBF9;
+    --text:#333333;
+    --text-soft:#5b665b;
+    --border:#E6E6E6;
+    --danger:#c62828;
+    --danger-bg:#fdecea;
+    --radius:14px;
+    --font-head:'Poppins','Inter',sans-serif;
+    --font-body:'Open Sans','Roboto',sans-serif;
+    --shadow:0 10px 30px rgba(0,64,0,0.10);
+  }
+  *{ box-sizing:border-box; }
+  @media (prefers-reduced-motion:reduce){ *{ animation:none !important; transition:none !important; } }
+  body{
+    margin:0; font-family:var(--font-body); color:var(--text); background:var(--bg);
+    min-height:100vh; display:grid; grid-template-columns:1fr 1fr;
+  }
+  h1,h2{ font-family:var(--font-head); color:var(--green-900); margin:0 0 .4em; }
+  p{ color:var(--text-soft); margin:0 0 1em; }
+  a{ color:var(--green-900); font-weight:700; text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+
+  .skip-link{ position:absolute; left:-9999px; top:0; background:var(--green-900); color:#fff; padding:12px 20px; z-index:200; }
+  .skip-link:focus{ left:0; }
+
+  /* Brand panel */
+  .brand-panel{
+    background:linear-gradient(160deg, var(--green-900), #063106 70%);
+    color:#fff; padding:56px; display:flex; flex-direction:column; justify-content:space-between;
+    position:relative; overflow:hidden;
+  }
+  .brand-panel::after{
+    content:""; position:absolute; right:-80px; bottom:-80px; width:320px; height:320px;
+    border-radius:50%; background:rgba(255,102,0,0.14);
+  }
+  .logo{ display:flex; align-items:center; gap:8px; font-family:var(--font-head); font-weight:800; font-size:24px; z-index:1; }
+  .logo .dot{ width:10px; height:10px; border-radius:50%; background:var(--orange-500); }
+  .brand-copy{ max-width:36ch; z-index:1; }
+  .brand-copy h2{ color:#fff; font-size:30px; }
+  .brand-copy p{ color:rgba(255,255,255,0.78); font-size:16px; }
+  .security-badges{ display:flex; flex-wrap:wrap; gap:10px; z-index:1; }
+  .badge{
+    display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.2); border-radius:999px; padding:8px 14px; font-size:13px; font-weight:700;
+  }
+
+  /* Form panel */
+  .form-panel{ display:flex; align-items:center; justify-content:center; padding:40px 24px; }
+  .form-wrap{ width:100%; max-width:420px; }
+  .form-wrap .mobile-logo{ display:none; }
+
+  .role-select{ margin-bottom:26px; }
+  .role-select p{ font-weight:700; color:var(--green-900); font-size:14px; margin-bottom:10px; }
+  .role-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+  .role-btn{
+    background:#fff; border:1.5px solid var(--border); border-radius:10px; padding:12px 4px;
+    font-family:var(--font-body); font-weight:700; font-size:12.5px; color:var(--text-soft); cursor:pointer;
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+  }
+  .role-btn .r-icon{ font-size:18px; }
+  .role-btn[aria-pressed="true"]{ border-color:var(--orange-500); color:var(--green-900); background:var(--green-050); }
+
+  .card{ background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:32px; box-shadow:var(--shadow); }
+  .field{ margin-bottom:18px; }
+  .field label{ display:block; font-weight:700; font-size:14px; color:var(--green-900); margin-bottom:6px; }
+  .input-wrap{ position:relative; }
+  .field input{
+    width:100%; padding:12px 14px; border:1px solid var(--border); border-radius:10px; font-size:15px;
+    font-family:var(--font-body); background:#fbfcfb;
+  }
+  .field input:focus{ border-color:var(--green-900); outline:none; box-shadow:0 0 0 3px var(--green-050); }
+  .field input[aria-invalid="true"]{ border-color:var(--danger); }
+  .toggle-visibility{
+    position:absolute; right:8px; top:50%; transform:translateY(-50%); background:none; border:none;
+    color:var(--text-soft); font-size:13px; font-weight:700; cursor:pointer; padding:6px 8px;
+  }
+  .row-between{ display:flex; align-items:center; justify-content:space-between; margin:2px 0 20px; font-size:13.5px; }
+  .checkbox-row{ display:flex; align-items:center; gap:8px; }
+  .checkbox-row input{ width:16px; height:16px; }
+
+  button.btn-primary{
+    width:100%; background:var(--orange-500); color:#fff; font-weight:700; font-size:16px; border:none;
+    border-radius:999px; padding:14px; cursor:pointer; box-shadow:0 6px 18px rgba(255,102,0,0.30);
+    display:flex; align-items:center; justify-content:center; gap:8px; transition:background .15s, transform .15s;
+  }
+  button.btn-primary:hover:not(:disabled){ background:var(--orange-600); transform:translateY(-1px); }
+  button.btn-primary:disabled{ opacity:.55; cursor:not-allowed; }
+  button:focus-visible, a:focus-visible, input:focus-visible, .role-btn:focus-visible{
+    outline:3px solid var(--orange-500); outline-offset:2px;
+  }
+
+  .divider{ display:flex; align-items:center; gap:12px; color:var(--text-soft); font-size:12px; margin:22px 0; }
+  .divider::before, .divider::after{ content:""; flex:1; height:1px; background:var(--border); }
+
+  .alert{ display:flex; gap:10px; align-items:flex-start; background:var(--danger-bg); color:var(--danger);
+    border:1px solid #f5c6c1; border-radius:10px; padding:12px 14px; font-size:13.5px; font-weight:600; margin-bottom:18px; }
+  .alert.info{ background:var(--green-050); color:var(--green-900); border-color:#cfe3cb; }
+
+  .otp-inputs{ display:flex; gap:10px; justify-content:space-between; margin-bottom:6px; }
+  .otp-inputs input{
+    width:44px; height:52px; text-align:center; font-size:20px; font-weight:700; border:1px solid var(--border);
+    border-radius:10px; background:#fbfcfb;
+  }
+  .otp-meta{ display:flex; justify-content:space-between; align-items:center; font-size:13px; margin:8px 0 20px; }
+  .resend-btn{ background:none; border:none; color:var(--green-900); font-weight:700; font-size:13px; cursor:pointer; padding:0; }
+  .resend-btn:disabled{ color:var(--text-soft); cursor:not-allowed; text-decoration:none; }
+
+  .back-link{ display:inline-flex; align-items:center; gap:6px; font-size:13.5px; margin-bottom:16px; }
+  .strength-note{ font-size:12px; color:var(--text-soft); margin-top:-10px; margin-bottom:16px; }
+  .footnote{ text-align:center; font-size:12.5px; color:var(--text-soft); margin-top:22px; }
+  .footnote .lock{ display:inline-flex; align-items:center; gap:4px; }
+
+  [hidden]{ display:none !important; }
+  .visually-hidden{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+
+  @media (max-width:900px){
+    body{ grid-template-columns:1fr; }
+    .brand-panel{ display:none; }
+    .form-wrap .mobile-logo{
+      display:flex; align-items:center; gap:8px; font-family:var(--font-head); font-weight:800;
+      font-size:22px; color:var(--green-900); justify-content:center; margin-bottom:28px;
+    }
+    .mobile-logo .dot{ width:9px; height:9px; border-radius:50%; background:var(--orange-500); }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#loginCard">Skip to sign-in form</a>
+
+<!-- LEFT BRAND PANEL -->
+<aside class="brand-panel" aria-hidden="true">
+  <div class="logo"><span class="dot"></span>eGrade</div>
+  <div class="brand-copy">
+    <h2>Welcome back.</h2>
+    <p>Sign in to manage attendance, grading, and communication — built with security your school can rely on.</p>
+  </div>
+  <div class="security-badges">
+    <span class="badge">🔒 TLS-encrypted connection</span>
+    <span class="badge">🛡️ Multi-factor authentication</span>
+    <span class="badge">📋 Full login audit trail</span>
+  </div>
+</aside>
+
+<!-- RIGHT FORM PANEL -->
+<main class="form-panel">
+  <div class="form-wrap">
+    <div class="mobile-logo"><span class="dot"></span>eGrade</div>
+
+    <!-- STEP 1: CREDENTIALS -->
+    <section id="step-credentials">
+      <div class="role-select">
+        <p>I am signing in as a...</p>
+        <div class="role-grid" role="group" aria-label="Select your role">
+          <button type="button" class="role-btn" data-role="admin" aria-pressed="true"><span class="r-icon">🏫</span>Admin</button>
+          <button type="button" class="role-btn" data-role="teacher" aria-pressed="false"><span class="r-icon">📘</span>Teacher</button>
+          <button type="button" class="role-btn" data-role="parent" aria-pressed="false"><span class="r-icon">👪</span>Parent</button>
+          <button type="button" class="role-btn" data-role="student" aria-pressed="false"><span class="r-icon">🎓</span>Student</button>
+        </div>
+      </div>
+
+      <div class="card" id="loginCard">
+        <h1 style="font-size:24px;">Sign in</h1>
+        <p style="margin-bottom:22px;" id="roleHint">Administrator access — manage your school's account and settings.</p>
+
+        <div id="lockoutAlert" class="alert" role="alert" hidden></div>
+        <div id="genericError" class="alert" role="alert" hidden>
+          <span aria-hidden="true">⚠️</span>
+          <span id="genericErrorText">That email and password don't match. Please try again.</span>
+        </div>
+
+        <form id="credentialsForm" novalidate autocomplete="on">
+          <!-- In production: include a server-issued, single-use CSRF token as a hidden field -->
+          <input type="hidden" name="csrf_token" value="__SERVER_GENERATED_TOKEN__">
+
+          <div class="field">
+            <label for="email">Email address</label>
+            <input id="email" name="email" type="email" required autocomplete="username" inputmode="email" aria-describedby="emailError">
+            <div id="emailError" class="visually-hidden" role="alert"></div>
+          </div>
+
+          <div class="field">
+            <label for="password">Password</label>
+            <div class="input-wrap">
+              <input id="password" name="password" type="password" required autocomplete="current-password" minlength="8" aria-describedby="passwordError">
+              <button type="button" class="toggle-visibility" id="togglePw" aria-label="Show password" aria-pressed="false">Show</button>
+            </div>
+            <div id="passwordError" class="visually-hidden" role="alert"></div>
+          </div>
+
+          <div class="row-between">
+            <label class="checkbox-row" for="rememberDevice">
+              <input type="checkbox" id="rememberDevice" name="rememberDevice">
+              Remember this device for 30 days
+            </label>
+            <a href="#" id="forgotLink">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn-primary" id="submitCreds">
+            <span id="submitCredsLabel">Sign in securely</span>
+          </button>
+        </form>
+
+        <div class="divider">or</div>
+        <button type="button" class="btn-primary" style="background:#fff; color:var(--green-900); border:1.5px solid var(--border); box-shadow:none;" id="ssoBtn">
+          Sign in with school SSO
+        </button>
+
+        <p class="footnote">
+          <span class="lock">🔒 Your connection to this page is encrypted.</span><br>
+          Attempts remaining before temporary lockout: <strong id="attemptsLeft">5</strong>
+        </p>
+      </div>
+    </section>
+
+    <!-- STEP 2: MFA / OTP -->
+    <section id="step-mfa" hidden>
+      <button type="button" class="back-link" id="backToCreds">← Back</button>
+      <div class="card">
+        <h1 style="font-size:24px;">Verify it's you</h1>
+        <p style="margin-bottom:22px;">
+          We sent a 6-digit code to <strong id="mfaTarget">j•••@riverside.ac.ke</strong>. It expires in 5 minutes.
+        </p>
+
+        <div id="otpError" class="alert" role="alert" hidden>
+          <span aria-hidden="true">⚠️</span> Incorrect code. Please try again.
+        </div>
+
+        <form id="otpForm" novalidate>
+          <div class="otp-inputs" role="group" aria-label="6-digit verification code">
+            <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 1" class="otp-digit">
+            <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 2" class="otp-digit">
+            <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 3" class="otp-digit">
+            <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 4" class="otp-digit">
+            <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 5" class="otp-digit">
+            <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 6" class="otp-digit">
+          </div>
+          <div class="otp-meta">
+            <span id="otpTimer">Code expires in 04:59</span>
+            <button type="button" class="resend-btn" id="resendBtn" disabled>Resend code (30s)</button>
+          </div>
+
+          <label class="checkbox-row" style="margin-bottom:20px;">
+            <input type="checkbox" id="trustDevice">
+            Trust this device — skip this step next time
+          </label>
+
+          <button type="submit" class="btn-primary" id="submitOtp">Verify and sign in</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- STEP 3: SUCCESS -->
+    <section id="step-success" hidden>
+      <div class="card" style="text-align:center;">
+        <div style="font-size:38px; margin-bottom:12px;">✅</div>
+        <h1 style="font-size:22px;">You're signed in</h1>
+        <p>Welcome back. For your security, we noticed this sign-in from a <strong>new device</strong> in Nairobi, Kenya — if this wasn't you, contact your school administrator immediately.</p>
+        <button type="button" class="btn-primary" id="continueBtn">Continue to dashboard</button>
+      </div>
+    </section>
+
+    <p class="footnote" style="margin-top:26px;">
+      Don't have an account? <a href="#">Contact your school administrator</a>
+    </p>
+  </div>
+</main>
+
+<script>
+(function(){
+  // ---------------------------------------------------------------
+  // NOTE: Everything below is CLIENT-SIDE UX SIMULATION ONLY.
+  // Real authentication, rate limiting, and session issuance must
+  // happen on a trusted server — never in browser JavaScript.
+  // ---------------------------------------------------------------
+
+  var roleHints = {
+    admin: "Administrator access — manage your school's account and settings.",
+    teacher: "Teacher access — grade assignments and manage your classes.",
+    parent: "Parent access — view your child's progress and messages.",
+    student: "Student access — view assignments, grades, and resources."
+  };
+  var roleBtns = document.querySelectorAll('.role-btn');
+  var roleHint = document.getElementById('roleHint');
+  var currentRole = 'admin';
+  roleBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      roleBtns.forEach(function(b){ b.setAttribute('aria-pressed','false'); });
+      btn.setAttribute('aria-pressed','true');
+      currentRole = btn.getAttribute('data-role');
+      roleHint.textContent = roleHints[currentRole];
+    });
+  });
+
+  // ---- Password visibility toggle ----
+  var pwInput = document.getElementById('password');
+  var toggleBtn = document.getElementById('togglePw');
+  toggleBtn.addEventListener('click', function(){
+    var showing = pwInput.type === 'text';
+    pwInput.type = showing ? 'password' : 'text';
+    toggleBtn.textContent = showing ? 'Show' : 'Hide';
+    toggleBtn.setAttribute('aria-pressed', String(!showing));
+    toggleBtn.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
+  });
+
+  // ---- Failed-attempt lockout simulation ----
+  var MAX_ATTEMPTS = 5;
+  var attemptsLeft = MAX_ATTEMPTS;
+  var lockedUntil = null;
+  var attemptsLeftEl = document.getElementById('attemptsLeft');
+  var lockoutAlert = document.getElementById('lockoutAlert');
+  var genericError = document.getElementById('genericError');
+  var credentialsForm = document.getElementById('credentialsForm');
+  var submitCreds = document.getElementById('submitCreds');
+  var submitCredsLabel = document.getElementById('submitCredsLabel');
+  var emailInput = document.getElementById('email');
+
+  function showStep(id){
+    ['step-credentials','step-mfa','step-success'].forEach(function(s){
+      document.getElementById(s).hidden = (s !== id);
+    });
+  }
+
+  function startLockout(){
+    lockedUntil = Date.now() + 60 * 1000; // 60s simulated lockout
+    lockoutAlert.hidden = false;
+    submitCreds.disabled = true;
+    tickLockout();
+  }
+  function tickLockout(){
+    var remaining = Math.max(0, Math.ceil((lockedUntil - Date.now())/1000));
+    if(remaining <= 0){
+      lockoutAlert.hidden = true;
+      submitCreds.disabled = false;
+      attemptsLeft = MAX_ATTEMPTS;
+      attemptsLeftEl.textContent = attemptsLeft;
+      return;
+    }
+    lockoutAlert.textContent = '⚠ Too many failed attempts. For security, sign-in is temporarily locked for ' + remaining + 's.';
+    setTimeout(tickLockout, 500);
+  }
+
+  credentialsForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    genericError.hidden = true;
+    if(lockedUntil && Date.now() < lockedUntil) return;
+
+    var email = emailInput.value.trim();
+    var password = pwInput.value;
+    var emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    emailInput.setAttribute('aria-invalid', String(!emailValid));
+    pwInput.setAttribute('aria-invalid', String(password.length < 8));
+
+    if(!emailValid || password.length < 8){
+      genericError.hidden = false;
+      document.getElementById('genericErrorText').textContent = 'Please enter a valid email and a password of at least 8 characters.';
+      return;
+    }
+
+    // Simulated server round trip
+    submitCredsLabel.textContent = 'Verifying…';
+    submitCreds.disabled = true;
+    setTimeout(function(){
+      submitCreds.disabled = false;
+      submitCredsLabel.textContent = 'Sign in securely';
+
+      // DEMO RULE: any password containing "demo" succeeds; everything else "fails"
+      // so you can see both the happy path and the lockout behavior.
+      var success = password.toLowerCase().indexOf('demo') !== -1;
+
+      if(success){
+        var masked = email.replace(/^(.).*(@.*)$/, function(_, a, b){ return a + '•••' + b; });
+        document.getElementById('mfaTarget').textContent = masked;
+        showStep('step-mfa');
+        startOtpTimers();
+      } else {
+        attemptsLeft -= 1;
+        attemptsLeftEl.textContent = Math.max(attemptsLeft, 0);
+        if(attemptsLeft <= 0){
+          startLockout();
+        } else {
+          genericError.hidden = false;
+        }
+      }
+    }, 600);
+  });
+
+  // ---- OTP step ----
+  var otpDigits = document.querySelectorAll('.otp-digit');
+  otpDigits.forEach(function(input, idx){
+    input.addEventListener('input', function(){
+      input.value = input.value.replace(/[^0-9]/g,'');
+      if(input.value && otpDigits[idx+1]) otpDigits[idx+1].focus();
+    });
+    input.addEventListener('keydown', function(e){
+      if(e.key === 'Backspace' && !input.value && otpDigits[idx-1]) otpDigits[idx-1].focus();
+    });
+  });
+
+  var otpTimerEl = document.getElementById('otpTimer');
+  var resendBtn = document.getElementById('resendBtn');
+  var otpExpiry, resendReady;
+
+  function startOtpTimers(){
+    otpExpiry = Date.now() + 5*60*1000;
+    resendReady = Date.now() + 30*1000;
+    resendBtn.disabled = true;
+    tickOtp();
+  }
+  function tickOtp(){
+    var remain = Math.max(0, otpExpiry - Date.now());
+    var mm = String(Math.floor(remain/60000)).padStart(2,'0');
+    var ss = String(Math.floor((remain%60000)/1000)).padStart(2,'0');
+    otpTimerEl.textContent = remain > 0 ? ('Code expires in ' + mm + ':' + ss) : 'Code expired — request a new one.';
+
+    var resendRemain = Math.max(0, Math.ceil((resendReady - Date.now())/1000));
+    resendBtn.disabled = resendRemain > 0;
+    resendBtn.textContent = resendRemain > 0 ? ('Resend code (' + resendRemain + 's)') : 'Resend code';
+
+    if(remain > 0) setTimeout(tickOtp, 500);
+  }
+  resendBtn.addEventListener('click', function(){
+    if(resendBtn.disabled) return;
+    resendReady = Date.now() + 30*1000;
+    otpExpiry = Date.now() + 5*60*1000;
+    tickOtp();
+  });
+
+  document.getElementById('backToCreds').addEventListener('click', function(){
+    showStep('step-credentials');
+  });
+
+  document.getElementById('otpForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var code = Array.from(otpDigits).map(function(i){ return i.value; }).join('');
+    var otpError = document.getElementById('otpError');
+    // DEMO RULE: code "123456" always verifies successfully.
+    if(code === '123456'){
+      otpError.hidden = true;
+      showStep('step-success');
+    } else {
+      otpError.hidden = false;
+      otpDigits.forEach(function(i){ i.value=''; });
+      otpDigits[0].focus();
+    }
+  });
+
+  document.getElementById('continueBtn').addEventListener('click', function(){
+    alert('This is where a real deployment would redirect to the ' + currentRole + ' dashboard.');
+  });
+
+  document.getElementById('forgotLink').addEventListener('click', function(e){
+    e.preventDefault();
+    alert('In production, this sends a password-reset link to the verified email on file (never reveals whether the email exists).');
+  });
+
+  document.getElementById('ssoBtn').addEventListener('click', function(){
+    alert('This is where a real deployment would redirect to your school\'s SSO / identity provider (e.g. Google Workspace, Microsoft Entra).');
+  });
+})();
+</script>
+</body>
+</html>

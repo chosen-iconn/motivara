@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>eGrade — School Management Software | Attendance, Grading, Parent Portal</title>
+<meta name="description" content="Streamline school operations with eGrade. Manage attendance, grading, timetables, and parent communication in one secure platform. Start a free trial.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "eGrade",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Web",
+  "description": "All-in-one school management platform for attendance, grading, communication, and reporting.",
+  "offers": {
+    "@type": "AggregateOffer",
+    "lowPrice": "0",
+    "priceCurrency": "KES",
+    "offerCount": "3"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "reviewCount": "214"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "eGrade",
+  "url": "https://www.egrade.example",
+  "sameAs": []
+}
+</script>
+<style>
+  :root{
+    --green-900:#004000;
+    --green-800:#0a5c0a;
+    --green-050:#e9f1e7;
+    --orange-500:#ff6600;
+    --orange-600:#e35800;
+    --bg:#FAFBF9;
+    --text:#333333;
+    --text-soft:#5b665b;
+    --border:#E6E6E6;
+    --white:#ffffff;
+    --radius:14px;
+    --max:1200px;
+    --gutter:24px;
+    --font-head:'Poppins', 'Inter', sans-serif;
+    --font-body:'Open Sans', 'Roboto', sans-serif;
+    --shadow:0 10px 30px rgba(0,64,0,0.10);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto;} *{animation:none !important; transition:none !important;} }
+
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    color:var(--text);
+    background:var(--bg);
+    font-size:16px;
+    line-height:1.55;
+  }
+  h1,h2,h3{ font-family:var(--font-head); color:var(--green-900); margin:0 0 .5em; line-height:1.15; }
+  h1{ font-size:44px; font-weight:800; letter-spacing:-0.5px; }
+  h2{ font-size:32px; font-weight:700; }
+  h3{ font-size:22px; font-weight:700; }
+  p{ margin:0 0 1em; color:var(--text-soft); }
+  a{ color:inherit; }
+  .container{ max-width:var(--max); margin:0 auto; padding:0 var(--gutter); }
+  .skip-link{
+    position:absolute; left:-9999px; top:0; background:var(--green-900); color:#fff; padding:12px 20px; z-index:200; border-radius:0 0 8px 0;
+  }
+  .skip-link:focus{ left:0; }
+
+  button, .btn{
+    font-family:var(--font-body);
+    font-weight:700;
+    font-size:16px;
+    border-radius:999px;
+    padding:14px 28px;
+    border:2px solid transparent;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  button:focus-visible, a:focus-visible, input:focus-visible, .tab:focus-visible{
+    outline:3px solid var(--orange-500);
+    outline-offset:2px;
+  }
+  .btn-primary{ background:var(--orange-500); color:#fff; box-shadow:0 6px 18px rgba(255,102,0,0.30); }
+  .btn-primary:hover{ background:var(--orange-600); transform:translateY(-2px); }
+  .btn-outline{ background:transparent; color:var(--green-900); border-color:var(--green-900); }
+  .btn-outline:hover{ background:var(--green-050); transform:translateY(-2px); }
+  .btn-sm{ padding:10px 18px; font-size:14px; }
+
+  /* NAV */
+  header.nav{
+    position:sticky; top:0; z-index:100;
+    background:rgba(250,251,249,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-inner{ display:flex; align-items:center; justify-content:space-between; padding:14px var(--gutter); max-width:var(--max); margin:0 auto; }
+  .logo{ display:flex; align-items:center; gap:8px; font-family:var(--font-head); font-weight:800; font-size:22px; color:var(--green-900); text-decoration:none; }
+  .logo .dot{ width:10px; height:10px; border-radius:50%; background:var(--orange-500); display:inline-block; }
+  .nav-links{ display:flex; gap:28px; list-style:none; margin:0; padding:0; }
+  .nav-links a{ text-decoration:none; font-weight:600; color:var(--green-900); font-size:15px; }
+  .nav-cta{ display:flex; gap:12px; align-items:center; }
+  .nav-toggle{ display:none; background:none; border:none; padding:8px; }
+  @media (max-width:900px){
+    .nav-links{ display:none; }
+    .nav-toggle{ display:inline-flex; }
+  }
+
+  /* HERO */
+  .hero{ padding:72px 0 60px; overflow:hidden; }
+  .hero-inner{ display:grid; grid-template-columns:1.05fr 0.95fr; gap:56px; align-items:center; }
+  .eyebrow{ display:inline-flex; align-items:center; gap:8px; background:var(--green-050); color:var(--green-900); font-weight:700; font-size:13px; padding:6px 14px; border-radius:999px; margin-bottom:18px; }
+  .hero p.lead{ font-size:19px; color:var(--text-soft); max-width:46ch; }
+  .hero-ctas{ display:flex; gap:16px; margin:28px 0 30px; flex-wrap:wrap; }
+  .trust-line{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; font-size:14px; color:var(--text-soft); }
+  .trust-line strong{ color:var(--green-900); }
+  .logo-row{ display:flex; gap:18px; margin-top:14px; opacity:.75; flex-wrap:wrap; }
+  .logo-chip{ font-size:12px; font-weight:700; color:var(--green-900); border:1px solid var(--border); border-radius:8px; padding:6px 10px; background:#fff; }
+
+  /* Hero visual: illustration + dashboard inset with role switcher */
+  .hero-visual{ position:relative; }
+  .scene{ border-radius:24px; overflow:hidden; box-shadow:var(--shadow); background:linear-gradient(160deg, var(--green-050), #fff 60%); border:1px solid var(--border); }
+  .dash-card{
+    position:relative; margin:-58px 24px 24px; background:#fff; border-radius:var(--radius); box-shadow:0 16px 40px rgba(0,64,0,0.18); border:1px solid var(--border); overflow:hidden;
+  }
+  .dash-tabs{ display:flex; border-bottom:1px solid var(--border); background:#fbfcfb; }
+  .tab{
+    flex:1; background:none; border:none; padding:12px 6px; font-weight:700; font-size:13px; color:var(--text-soft); cursor:pointer; border-bottom:3px solid transparent; font-family:var(--font-body);
+  }
+  .tab[aria-selected="true"]{ color:var(--green-900); border-bottom-color:var(--orange-500); background:#fff; }
+  .dash-body{ padding:20px; min-height:230px; }
+  .dash-row{ display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px dashed var(--border); font-size:13px; }
+  .dash-row:last-child{ border-bottom:none; }
+  .pill{ font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px; }
+  .pill.ok{ background:#e6f4e6; color:var(--green-900); }
+  .pill.warn{ background:#fff1e6; color:var(--orange-600); }
+  .dash-title{ font-size:13px; font-weight:700; color:var(--green-900); text-transform:uppercase; letter-spacing:.06em; margin-bottom:10px; }
+
+  @media (max-width:900px){
+    .hero-inner{ grid-template-columns:1fr; gap:36px; }
+    h1{ font-size:34px; }
+    .dash-card{ margin:-40px 14px 14px; }
+  }
+
+  /* Section shell */
+  section{ padding:72px 0; }
+  .section-head{ max-width:640px; margin:0 auto 44px; text-align:center; }
+  .section-head p{ font-size:17px; }
+  .eyebrow-alt{ color:var(--orange-600); font-weight:800; font-size:13px; letter-spacing:.08em; text-transform:uppercase; }
+
+  /* Value props */
+  .value-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  .value-card{ background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:28px; }
+  .value-card .icon{ width:44px; height:44px; border-radius:12px; background:var(--green-050); display:flex; align-items:center; justify-content:center; margin-bottom:16px; }
+  @media (max-width:900px){ .value-grid{ grid-template-columns:1fr; } }
+
+  /* Audience features */
+  .audience-wrap{ background:var(--green-900); border-radius:28px; padding:56px 40px; color:#fff; }
+  .audience-wrap h2, .audience-wrap p{ color:#fff; }
+  .audience-wrap .eyebrow-alt{ color:var(--orange-500); }
+  .audience-tabs{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:32px; }
+  .a-tab{ background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.25); color:#fff; border-radius:999px; padding:10px 20px; font-weight:700; font-size:14px; }
+  .a-tab[aria-selected="true"]{ background:var(--orange-500); border-color:var(--orange-500); }
+  .a-panel{ display:grid; grid-template-columns:1fr 1fr; gap:36px; align-items:center; }
+  .a-panel ul{ list-style:none; padding:0; margin:18px 0 0; display:grid; gap:12px; }
+  .a-panel li{ display:flex; gap:10px; font-size:15px; }
+  .check{ color:var(--orange-500); font-weight:900; }
+  .mock{ background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.18); border-radius:16px; padding:20px; }
+  .mock .dash-row{ border-bottom-color:rgba(255,255,255,0.15); color:#fff; }
+  @media (max-width:900px){ .a-panel{ grid-template-columns:1fr; } .audience-wrap{ padding:36px 22px; } }
+
+  /* How it works */
+  .steps{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; counter-reset:step; }
+  .step{ position:relative; padding-top:8px; }
+  .step .num{ font-family:var(--font-head); font-size:15px; font-weight:800; color:var(--orange-500); display:block; margin-bottom:10px; }
+  .step h3{ margin-bottom:6px; }
+  @media (max-width:900px){ .steps{ grid-template-columns:1fr; } }
+
+  /* Testimonials */
+  .testimonials{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  .t-card{ background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:26px; }
+  .t-quote{ font-size:15px; margin-bottom:18px; }
+  .t-who{ display:flex; align-items:center; gap:12px; }
+  .avatar{ width:40px; height:40px; border-radius:50%; background:var(--green-050); color:var(--green-900); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; }
+  .t-name{ font-weight:700; color:var(--green-900); font-size:14px; }
+  .t-role{ font-size:12px; color:var(--text-soft); }
+  @media (max-width:900px){ .testimonials{ grid-template-columns:1fr; } }
+
+  /* Pricing */
+  .pricing-toggle{ display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:36px; font-weight:700; font-size:14px; }
+  .switch{ position:relative; width:52px; height:28px; background:var(--green-050); border-radius:999px; border:1px solid var(--border); cursor:pointer; }
+  .switch .knob{ position:absolute; top:2px; left:2px; width:22px; height:22px; border-radius:50%; background:var(--green-900); transition:transform .2s ease; }
+  .switch[aria-checked="true"] .knob{ transform:translateX(24px); background:var(--orange-500); }
+  .save-badge{ background:var(--green-050); color:var(--green-900); font-size:12px; padding:2px 8px; border-radius:999px; }
+  .pricing-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; align-items:stretch; }
+  .plan{ background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:30px; display:flex; flex-direction:column; }
+  .plan.popular{ border:2px solid var(--orange-500); box-shadow:var(--shadow); position:relative; }
+  .plan.popular::before{ content:"Most popular"; position:absolute; top:-14px; left:24px; background:var(--orange-500); color:#fff; font-size:11px; font-weight:800; padding:4px 12px; border-radius:999px; }
+  .price{ font-family:var(--font-head); font-size:36px; font-weight:800; color:var(--green-900); margin:14px 0 4px; }
+  .price span{ font-size:14px; font-weight:600; color:var(--text-soft); }
+  .plan ul{ list-style:none; padding:0; margin:20px 0; display:grid; gap:10px; flex:1; }
+  .plan li{ font-size:14px; display:flex; gap:8px; }
+  @media (max-width:900px){ .pricing-grid{ grid-template-columns:1fr; } }
+
+  /* Demo form */
+  .demo-wrap{ display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; }
+  form.demo-form{ background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:32px; box-shadow:var(--shadow); }
+  .field{ margin-bottom:18px; }
+  .field label{ display:block; font-weight:700; font-size:14px; color:var(--green-900); margin-bottom:6px; }
+  .field input, .field select{
+    width:100%; padding:12px 14px; border:1px solid var(--border); border-radius:10px; font-size:15px; font-family:var(--font-body); background:#fbfcfb;
+  }
+  .field input:focus, .field select:focus{ border-color:var(--green-900); outline:none; box-shadow:0 0 0 3px var(--green-050); }
+  .field small{ display:block; color:var(--text-soft); margin-top:4px; font-size:12px; }
+  .form-note{ font-size:13px; color:var(--text-soft); margin-top:10px; }
+  .form-status{ font-size:14px; font-weight:700; margin-top:12px; min-height:20px; }
+  .form-status.success{ color:var(--green-900); }
+  @media (max-width:900px){ .demo-wrap{ grid-template-columns:1fr; } }
+
+  /* Footer */
+  footer{ background:var(--green-900); color:#fff; padding:56px 0 28px; }
+  .footer-grid{ display:grid; grid-template-columns:1.4fr repeat(4,1fr); gap:32px; }
+  footer h4{ color:#fff; font-family:var(--font-head); font-size:14px; margin-bottom:14px; }
+  footer ul{ list-style:none; padding:0; margin:0; display:grid; gap:10px; }
+  footer a{ color:rgba(255,255,255,0.75); text-decoration:none; font-size:14px; }
+  footer a:hover{ color:#fff; }
+  .footer-bottom{ display:flex; justify-content:space-between; align-items:center; margin-top:44px; padding-top:22px; border-top:1px solid rgba(255,255,255,0.15); font-size:13px; color:rgba(255,255,255,0.6); flex-wrap:wrap; gap:12px; }
+  .social{ display:flex; gap:14px; }
+  @media (max-width:900px){ .footer-grid{ grid-template-columns:1fr 1fr; } }
+
+  .visually-hidden{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#top" aria-label="eGrade home"><span class="dot"></span>eGrade</a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#proof">Testimonials</a></li>
+        <li><a href="#demo">Resources</a></li>
+      </ul>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-outline btn-sm" href="#demo" data-track="cta_click" data-cta="request_demo_nav">Request Demo</a>
+      <a class="btn btn-primary btn-sm" href="#demo" data-track="cta_click" data-cta="start_trial_nav">Start Free Trial</a>
+    </div>
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="container hero-inner">
+      <div>
+        <span class="eyebrow">🎓 Built for schools across Kenya</span>
+        <h1>School management, made simple.</h1>
+        <p class="lead">One platform for attendance, grading, timetables, and parent communication — so your staff spend less time on paperwork and more time teaching.</p>
+        <div class="hero-ctas">
+          <button class="btn btn-primary" data-track="cta_click" data-cta="start_trial_hero">Start Free Trial</button>
+          <button class="btn btn-outline" data-track="cta_click" data-cta="request_demo_hero">Request Demo</button>
+        </div>
+        <div class="trust-line">
+          <strong>Trusted by 200+ schools</strong> across Kenya
+        </div>
+        <div class="logo-row" aria-label="Partner schools">
+          <span class="logo-chip">Riverside Academy</span>
+          <span class="logo-chip">Greenfield School</span>
+          <span class="logo-chip">St. Mary's</span>
+          <span class="logo-chip">Highpoint College</span>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="scene">
+          <svg viewBox="0 0 560 320" width="100%" role="img" aria-label="Illustration of teachers and students using eGrade on a laptop">
+            <rect width="560" height="320" fill="#eef5ec"/>
+            <circle cx="470" cy="60" r="70" fill="#e2eee0"/>
+            <rect x="0" y="240" width="560" height="80" fill="#dcebda"/>
+            <!-- laptop -->
+            <rect x="190" y="140" width="180" height="110" rx="8" fill="#ffffff" stroke="#004000" stroke-width="3"/>
+            <rect x="205" y="152" width="150" height="80" rx="4" fill="#004000"/>
+            <rect x="170" y="250" width="220" height="12" rx="4" fill="#004000"/>
+            <rect x="218" y="162" width="120" height="8" rx="2" fill="#ff6600"/>
+            <rect x="218" y="178" width="90" height="8" rx="2" fill="#ffffff" opacity="0.7"/>
+            <rect x="218" y="194" width="100" height="8" rx="2" fill="#ffffff" opacity="0.5"/>
+            <!-- teacher figure -->
+            <circle cx="130" cy="150" r="22" fill="#004000"/>
+            <rect x="105" y="172" width="50" height="70" rx="18" fill="#ff6600"/>
+            <!-- student figure -->
+            <circle cx="430" cy="170" r="18" fill="#0a5c0a"/>
+            <rect x="410" y="188" width="40" height="56" rx="16" fill="#004000"/>
+            <!-- book -->
+            <rect x="330" y="230" width="40" height="10" rx="2" fill="#ff6600"/>
+          </svg>
+        </div>
+
+        <div class="dash-card">
+          <div class="dash-tabs" role="tablist" aria-label="Dashboard preview by role">
+            <button class="tab" role="tab" aria-selected="true" data-role="admin">Admin</button>
+            <button class="tab" role="tab" aria-selected="false" data-role="teacher">Teacher</button>
+            <button class="tab" role="tab" aria-selected="false" data-role="parent">Parent</button>
+            <button class="tab" role="tab" aria-selected="false" data-role="student">Student</button>
+          </div>
+          <div class="dash-body" id="dashBody">
+            <!-- filled by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUE PROPS -->
+  <section id="value">
+    <div class="container">
+      <div class="value-grid">
+        <div class="value-card">
+          <div class="icon" aria-hidden="true">⏱️</div>
+          <h3>Save time</h3>
+          <p>Automated grading and bulk messaging cut hours of admin work every week.</p>
+        </div>
+        <div class="value-card">
+          <div class="icon" aria-hidden="true">📈</div>
+          <h3>Improve outcomes</h3>
+          <p>Analytics and progress tracking flag students who need support, early.</p>
+        </div>
+        <div class="value-card">
+          <div class="icon" aria-hidden="true">💬</div>
+          <h3>Engage your community</h3>
+          <p>A parent portal and mobile notifications keep families in the loop, always.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES BY AUDIENCE -->
+  <section id="features">
+    <div class="container">
+      <div class="audience-wrap">
+        <div class="section-head" style="text-align:left; margin:0 0 8px;">
+          <span class="eyebrow-alt">Built for everyone at your school</span>
+          <h2>One platform, four points of view</h2>
+        </div>
+        <div class="audience-tabs" role="tablist" aria-label="Features by audience">
+          <button class="a-tab" role="tab" aria-selected="true" data-aud="admin">Administrators</button>
+          <button class="a-tab" role="tab" aria-selected="false" data-aud="teacher">Teachers</button>
+          <button class="a-tab" role="tab" aria-selected="false" data-aud="parent">Parents</button>
+          <button class="a-tab" role="tab" aria-selected="false" data-aud="student">Students</button>
+        </div>
+        <div id="audiencePanel" class="a-panel"><!-- filled by JS --></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow-alt">Getting started</span>
+        <h2>Live in three steps</h2>
+        <p>Most schools are fully onboarded within a week.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <span class="num">01</span>
+          <h3>Sign up and onboard</h3>
+          <p>Create your school's account and set roles for staff and admins.</p>
+        </div>
+        <div class="step">
+          <span class="num">02</span>
+          <h3>Import classes and timetables</h3>
+          <p>Bring in your existing class lists, subjects, and schedules in minutes.</p>
+        </div>
+        <div class="step">
+          <span class="num">03</span>
+          <h3>Start grading and communicating</h3>
+          <p>Record grades, mark attendance, and message parents from day one.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIAL PROOF -->
+  <section id="proof">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow-alt">Social proof</span>
+        <h2>What school leaders say</h2>
+      </div>
+      <div class="testimonials">
+        <div class="t-card">
+          <p class="t-quote">Report cards used to take our staff a full weekend. With eGrade, they're ready before Friday's staff meeting.</p>
+          <div class="t-who">
+            <div class="avatar">JM</div>
+            <div>
+              <div class="t-name">James Mwangi</div>
+              <div class="t-role">Deputy Head, Riverside Academy</div>
+            </div>
+          </div>
+        </div>
+        <div class="t-card">
+          <p class="t-quote">Parents finally see attendance and fee statements without calling the office. Our front desk is so much quieter now.</p>
+          <div class="t-who">
+            <div class="avatar">AN</div>
+            <div>
+              <div class="t-name">Alice Njeri</div>
+              <div class="t-role">Principal, Greenfield School</div>
+            </div>
+          </div>
+        </div>
+        <div class="t-card">
+          <p class="t-quote">The CBC-ready gradebook templates saved us from building our own spreadsheets from scratch every term.</p>
+          <div class="t-who">
+            <div class="avatar">DK</div>
+            <div>
+              <div class="t-name">David Kiptoo</div>
+              <div class="t-role">Head Teacher, Highpoint College</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:28px;">
+        <a href="#demo" class="btn btn-outline btn-sm" data-track="cta_click" data-cta="case_study">View full success story</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow-alt">Pricing</span>
+        <h2>Plans for every school size</h2>
+      </div>
+      <div class="pricing-toggle">
+        <span>Monthly</span>
+        <div class="switch" role="switch" aria-checked="false" tabindex="0" aria-label="Toggle annual pricing"><span class="knob"></span></div>
+        <span>Annual <span class="save-badge">Save 20%</span></span>
+      </div>
+      <div class="pricing-grid">
+        <div class="plan">
+          <h3>Starter</h3>
+          <p>Core tools for small schools getting organized.</p>
+          <div class="price" data-monthly="0" data-annual="0">Free</div>
+          <ul>
+            <li><span class="check">✓</span> Attendance &amp; gradebook</li>
+            <li><span class="check">✓</span> Up to 150 students</li>
+            <li><span class="check">✓</span> Parent notifications</li>
+          </ul>
+          <button class="btn btn-outline" data-track="cta_click" data-cta="pricing_starter">Get Started Free</button>
+        </div>
+        <div class="plan popular">
+          <h3>Pro</h3>
+          <p>Full features and analytics for growing schools.</p>
+          <div class="price" data-monthly="1900" data-annual="1520"><span>KES</span> 1,900<span>/mo</span></div>
+          <ul>
+            <li><span class="check">✓</span> Everything in Starter</li>
+            <li><span class="check">✓</span> Analytics &amp; reporting</li>
+            <li><span class="check">✓</span> Unlimited students</li>
+            <li><span class="check">✓</span> QR attendance check-in</li>
+          </ul>
+          <button class="btn btn-primary" data-track="cta_click" data-cta="pricing_pro">Try eGrade Now</button>
+        </div>
+        <div class="plan">
+          <h3>Enterprise</h3>
+          <p>Custom integrations for multi-campus institutions.</p>
+          <div class="price" data-monthly="" data-annual="">Custom</div>
+          <ul>
+            <li><span class="check">✓</span> Everything in Pro</li>
+            <li><span class="check">✓</span> Custom integrations</li>
+            <li><span class="check">✓</span> Dedicated support</li>
+          </ul>
+          <button class="btn btn-outline" data-track="cta_click" data-cta="pricing_enterprise">Contact Sales</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMO SIGNUP -->
+  <section id="demo">
+    <div class="container demo-wrap">
+      <div>
+        <span class="eyebrow-alt">Get started</span>
+        <h2>See eGrade in your school</h2>
+        <p>Tell us a little about your school and we'll set up a personalized walkthrough — no commitment required.</p>
+        <p class="form-note">We'll never share your data.</p>
+      </div>
+      <form class="demo-form" id="demoForm" novalidate>
+        <div class="field">
+          <label for="schoolName">School name</label>
+          <input id="schoolName" name="schoolName" type="text" required autocomplete="organization">
+        </div>
+        <div class="field">
+          <label for="role">Your role</label>
+          <select id="role" name="role" required>
+            <option value="">Select a role</option>
+            <option>Administrator</option>
+            <option>Teacher</option>
+            <option>Parent</option>
+            <option>IT / Operations</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="email">Email address</label>
+          <input id="email" name="email" type="email" required autocomplete="email">
+          <small>We'll use this to set up your demo — no spam.</small>
+        </div>
+        <div class="field">
+          <label for="phone">Phone number</label>
+          <input id="phone" name="phone" type="tel" autocomplete="tel">
+        </div>
+        <div class="field">
+          <label for="demoTime">Preferred demo time</label>
+          <input id="demoTime" name="demoTime" type="datetime-local">
+        </div>
+        <button class="btn btn-primary" type="submit" style="width:100%; justify-content:center;" data-track="form_submit" data-cta="demo_form">Request Demo</button>
+        <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a class="logo" href="#top" style="color:#fff;"><span class="dot"></span>eGrade</a>
+        <p style="color:rgba(255,255,255,0.7); margin-top:14px; max-width:32ch;">School management software for attendance, grading, and family communication.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#demo">Book a demo</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Help center</a></li>
+          <li><a href="#">Case studies</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Contact us</a></li>
+          <li><a href="#">System status</a></li>
+          <li><a href="#">Community</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy policy</a></li>
+          <li><a href="#">Terms of service</a></li>
+          <li><a href="#">Data protection</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 eGrade. All rights reserved.</span>
+      <div class="social" aria-label="Social media">
+        <a href="#" aria-label="eGrade on X">✕</a>
+        <a href="#" aria-label="eGrade on Facebook">f</a>
+        <a href="#" aria-label="eGrade on LinkedIn">in</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ---- Analytics hooks (GA4 / Mixpanel-ready) ----
+  function track(eventName, detail){
+    var payload = Object.assign({ event: eventName }, detail || {});
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(payload);
+    if (window.gtag) { window.gtag('event', eventName, detail || {}); }
+    if (window.mixpanel && window.mixpanel.track) { window.mixpanel.track(eventName, detail || {}); }
+    // console.log('[analytics]', eventName, detail);
+  }
+  document.querySelectorAll('[data-track]').forEach(function(el){
+    el.addEventListener('click', function(){
+      track(el.getAttribute('data-track'), { cta: el.getAttribute('data-cta') });
+    });
+  });
+
+  // ---- Mobile nav toggle ----
+  var navToggle = document.querySelector('.nav-toggle');
+  var navLinks = document.querySelector('.nav-links');
+  navToggle.addEventListener('click', function(){
+    var open = navToggle.getAttribute('aria-expanded') === 'true';
+    navToggle.setAttribute('aria-expanded', String(!open));
+    navLinks.style.display = open ? 'none' : 'flex';
+    if(!open){
+      navLinks.style.cssText = 'display:flex; flex-direction:column; position:absolute; top:64px; left:0; right:0; background:#FAFBF9; padding:16px 24px; border-bottom:1px solid #E6E6E6; gap:16px;';
+    }
+  });
+
+  // ---- Hero dashboard role switcher ----
+  var dashData = {
+    admin: { title: 'School overview', rows: [
+      ['Active students', '412', 'ok'],
+      ['Pending fee invoices', '18', 'warn'],
+      ['Staff accounts', '34', 'ok']
+    ]},
+    teacher: { title: 'Grade 8B — Today', rows: [
+      ['Assignments to grade', '9', 'warn'],
+      ['Attendance marked', 'Done', 'ok'],
+      ['Next lesson', 'Biology, 11:00', 'ok']
+    ]},
+    parent: { title: "Amina's progress", rows: [
+      ['Attendance this term', '96%', 'ok'],
+      ['Fee balance', 'KES 0', 'ok'],
+      ['Latest report card', 'Ready', 'ok']
+    ]},
+    student: { title: 'My dashboard', rows: [
+      ['Assignments due', '2', 'warn'],
+      ['Average grade', 'B+', 'ok'],
+      ['Timetable today', '5 lessons', 'ok']
+    ]}
+  };
+  var dashTabs = document.querySelectorAll('.dash-tabs .tab');
+  var dashBody = document.getElementById('dashBody');
+  function renderDash(role){
+    var data = dashData[role];
+    var html = '<div class="dash-title">' + data.title + '</div>';
+    data.rows.forEach(function(r){
+      html += '<div class="dash-row"><span>'+r[0]+'</span><span class="pill '+r[2]+'">'+r[1]+'</span></div>';
+    });
+    dashBody.innerHTML = html;
+  }
+  dashTabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      dashTabs.forEach(function(t){ t.setAttribute('aria-selected','false'); });
+      tab.setAttribute('aria-selected','true');
+      renderDash(tab.getAttribute('data-role'));
+      track('dashboard_role_switch', { role: tab.getAttribute('data-role') });
+    });
+  });
+  renderDash('admin');
+
+  // ---- Audience feature panel ----
+  var audienceData = {
+    admin: {
+      copy: 'Manage user roles, billing, and school-wide settings from a single, secure dashboard.',
+      bullets: ['Role-based access for staff and admins', 'Billing and subscription management', 'School-wide settings and audit logs'],
+      dash: [['Total schools', '1', 'ok'], ['Storage used', '3.2 GB', 'ok'], ['Open support tickets', '2', 'warn']]
+    },
+    teacher: {
+      copy: 'Plan lessons, manage assignments, and grade faster with CBC-ready templates.',
+      bullets: ['Lesson planning tools', 'Assignment workflows', 'CBC-ready gradebook templates'],
+      dash: [['Assignments open', '12', 'warn'], ['Classes taught', '4', 'ok'], ['Avg. grading time', '6 min', 'ok']]
+    },
+    parent: {
+      copy: 'See fee statements, progress reports, and message teachers directly — all in one place.',
+      bullets: ['Real-time fee statements', 'Progress report access', 'Direct messaging with teachers'],
+      dash: [['Children linked', '2', 'ok'], ['Unread messages', '1', 'warn'], ['Fee balance', 'KES 0', 'ok']]
+    },
+    student: {
+      copy: 'A personalized dashboard with grades, assignments, and learning resources.',
+      bullets: ['Personalized dashboard', 'Assignment tracking', 'Access to learning resources'],
+      dash: [['Assignments due', '2', 'warn'], ['Current GPA', '3.6', 'ok'], ['Resources saved', '14', 'ok']]
+    }
+  };
+  var audienceLabels = { admin:'Admin Dashboard', teacher:'Teacher Tools', parent:'Parent Portal', student:'Student Experience' };
+  var audienceTabs = document.querySelectorAll('.audience-tabs .a-tab');
+  var audiencePanel = document.getElementById('audiencePanel');
+  function renderAudience(key){
+    var d = audienceData[key];
+    var bullets = d.bullets.map(function(b){ return '<li><span class="check">✓</span>'+b+'</li>'; }).join('');
+    var rows = d.dash.map(function(r){ return '<div class="dash-row"><span>'+r[0]+'</span><span class="pill '+r[2]+'">'+r[1]+'</span></div>'; }).join('');
+    audiencePanel.innerHTML =
+      '<div><h3 style="color:#fff;">'+audienceLabels[key]+'</h3><p>'+d.copy+'</p><ul>'+bullets+'</ul></div>' +
+      '<div class="mock"><div class="dash-title" style="color:#ff6600;">'+audienceLabels[key]+'</div>'+rows+'</div>';
+  }
+  audienceTabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      audienceTabs.forEach(function(t){ t.setAttribute('aria-selected','false'); });
+      tab.setAttribute('aria-selected','true');
+      renderAudience(tab.getAttribute('data-aud'));
+      track('audience_tab_click', { audience: tab.getAttribute('data-aud') });
+    });
+  });
+  renderAudience('admin');
+
+  // ---- Pricing monthly/annual toggle ----
+  var pricingSwitch = document.querySelector('.switch');
+  var priceEls = document.querySelectorAll('.price');
+  function setPricing(annual){
+    pricingSwitch.setAttribute('aria-checked', String(annual));
+    priceEls.forEach(function(el){
+      var m = el.getAttribute('data-monthly');
+      var a = el.getAttribute('data-annual');
+      if(m === '0'){ el.textContent = 'Free'; return; }
+      if(m === ''){ el.textContent = 'Custom'; return; }
+      var val = annual ? a : m;
+      el.innerHTML = '<span>KES</span> ' + Number(val).toLocaleString() + '<span>/mo</span>';
+    });
+    track('pricing_toggle', { annual: annual });
+  }
+  pricingSwitch.addEventListener('click', function(){
+    setPricing(pricingSwitch.getAttribute('aria-checked') !== 'true');
+  });
+  pricingSwitch.addEventListener('keydown', function(e){
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); pricingSwitch.click(); }
+  });
+
+  // ---- Demo form ----
+  var demoForm = document.getElementById('demoForm');
+  var formStatus = document.getElementById('formStatus');
+  demoForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var required = demoForm.querySelectorAll('[required]');
+    var valid = true;
+    required.forEach(function(f){ if(!f.value){ valid = false; f.style.borderColor = '#ff6600'; } else { f.style.borderColor = '#E6E6E6'; } });
+    if(!valid){
+      formStatus.textContent = 'Please fill in the required fields above.';
+      formStatus.classList.remove('success');
+      return;
+    }
+    track('demo_form_submit', { role: document.getElementById('role').value });
+    formStatus.textContent = "Thanks! We'll be in touch shortly to schedule your walkthrough.";
+    formStatus.classList.add('success');
+    demoForm.reset();
+  });
+</script>
+</body>
+</html>
