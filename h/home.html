@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eGrade — School Management Made Simple</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-primary: #004000;
+      --color-accent: #FF6600;
+      --color-bg: #FAFBF9;
+      --color-text: #333333;
+      --color-border: #E6E6E6;
+      --color-white: #FFFFFF;
+      --font-heading: 'Inter', sans-serif;
+      --font-body: 'Roboto', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--color-text);
+      background-color: var(--color-bg);
+      line-height: 1.6;
+    }
+
+    /* Sticky Top Navigation */
+    .sticky-nav {
+      position: sticky;
+      top: 0;
+      background-color: var(--color-white);
+      border-bottom: 1px solid var(--color-border);
+      z-index: 1000;
+      padding: 1rem 1.5rem;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1.5rem;
+      color: var(--color-primary);
+      text-decoration: none;
+    }
+
+    .logo-accent {
+      color: var(--color-accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--color-text);
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--color-primary);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    /* Button Tokens */
+    .btn {
+      display: inline-block;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-accent {
+      background-color: var(--color-accent);
+      color: var(--color-white);
+      border: 2px solid var(--color-accent);
+    }
+
+    .btn-accent:hover {
+      background-color: #e55c00;
+      border-color: #e55c00;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--color-primary);
+      border: 2px solid var(--color-primary);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--color-primary);
+      color: var(--color-white);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 5rem 1.5rem 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-content h1 {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: clamp(2.25rem, 4vw, 3rem);
+      line-height: 1.15;
+      color: var(--color-primary);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-content p {
+      font-size: 1.125rem;
+      color: var(--color-text);
+      margin-bottom: 2rem;
+      max-width: 500px;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .trust-line {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--color-border);
+      font-size: 0.875rem;
+      color: #666;
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none; /* Collapse to burger menu in production */
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        text-align: center;
+      }
+
+      .hero-content p {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-ctas {
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      .trust-line {
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Navigation -->
+  <nav class="sticky-nav" aria-label="Main Navigation">
+    <div class="nav-container">
+      <a href="/" class="logo">eGrade<span class="logo-accent">.</span></a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#roles">Roles</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="#demo" class="btn btn-accent" onclick="trackTrialClick('sticky_nav')">Start Free Trial</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <h1 id="hero-heading">eGrade — School Management Made Simple</h1>
+        <p>All-in-one platform for attendance, grading, communication, and reporting. Purpose-built for modern CBC and educational institutions.</p>
+        <div class="hero-ctas">
+          <a href="#trial" class="btn btn-accent" onclick="trackTrialClick('hero_primary')">Start Free Trial</a>
+          <a href="#demo" class="btn btn-outline" onclick="trackTrialClick('hero_secondary')">Request Demo</a>
+        </div>
+        <div class="trust-line">
+          <span><strong>Trusted by 200+ schools across Kenya</strong></span>
+          <!-- Replace spans with SVG school crests in production -->
+          <span aria-hidden="true">★ 4.8/5 Rating</span>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <!-- Dashboard Illustration / UI Inset Mount Point -->
+        <div style="background: var(--color-white); border: 1px solid var(--color-border); border-radius: 12px; height: 380px; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 25px -5px rgba(0,64,0,0.08);">
+          <span style="color: #888; font-family: var(--font-heading); font-weight: 600;">[ High-Res CBC Dashboard UI Inset ]</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
