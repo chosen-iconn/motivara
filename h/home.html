@@ -1,242 +1,973 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>eGrade — School Management Made Simple</title>
+  
+  <!-- SEO METADATA -->
+  <title>eGrade School Management Software — Attendance, Grading & Parent Portal</title>
+  <meta name="description" content="Streamline school operations with eGrade. Manage attendance, grading, timetables, and parent communication in one secure platform. Start a free trial.">
+  <meta name="keywords" content="eGrade, school management system, CBC grading Kenya, school attendance software, parent portal, Elimu, Kenya schools">
+  
+  <!-- TAILWIND CSS VIA CDN & CUSTOM BRAND CONVERSION -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#004000',
+            accent: '#ff6600',
+            neutralBg: '#FAFBF9',
+            neutralText: '#333333',
+            borderGray: '#E6E6E6',
+          },
+          fontFamily: {
+            heading: ['Poppins', 'sans-serif'],
+            body: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- GOOGLE FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- STRUCTURED DATA (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "eGrade",
+    "operatingSystem": "Web, iOS, Android",
+    "applicationCategory": "EducationalApplication",
+    "description": "All-in-one CBC-ready school management platform for attendance, grading, communication, and reporting.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "KES"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Elite Techs",
+      "url": "https://shepherdsam.online"
+    }
+  }
+  </script>
+
+  <!-- ANALYTICS & TRACKING HOOKS -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function trackEvent(eventName, eventParams) {
+      window.dataLayer.push({
+        event: eventName,
+        ...eventParams
+      });
+      console.log('[Analytics Hook]:', eventName, eventParams);
+    }
+  </script>
+
   <style>
-    :root {
-      --color-primary: #004000;
-      --color-accent: #FF6600;
-      --color-bg: #FAFBF9;
-      --color-text: #333333;
-      --color-border: #E6E6E6;
-      --color-white: #FFFFFF;
-      --font-heading: 'Inter', sans-serif;
-      --font-body: 'Roboto', sans-serif;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: var(--font-body);
-      color: var(--color-text);
-      background-color: var(--color-bg);
-      line-height: 1.6;
-    }
-
-    /* Sticky Top Navigation */
-    .sticky-nav {
-      position: sticky;
-      top: 0;
-      background-color: var(--color-white);
-      border-bottom: 1px solid var(--color-border);
-      z-index: 1000;
-      padding: 1rem 1.5rem;
-    }
-
-    .nav-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-family: var(--font-heading);
-      font-weight: 800;
-      font-size: 1.5rem;
-      color: var(--color-primary);
-      text-decoration: none;
-    }
-
-    .logo-accent {
-      color: var(--color-accent);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: var(--color-text);
-      font-weight: 500;
-      transition: color 0.2s ease;
-    }
-
-    .nav-links a:hover {
-      color: var(--color-primary);
-    }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    /* Button Tokens */
-    .btn {
-      display: inline-block;
-      font-family: var(--font-heading);
-      font-weight: 600;
-      font-size: 0.95rem;
-      padding: 0.75rem 1.5rem;
-      border-radius: 6px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .btn-accent {
-      background-color: var(--color-accent);
-      color: var(--color-white);
-      border: 2px solid var(--color-accent);
-    }
-
-    .btn-accent:hover {
-      background-color: #e55c00;
-      border-color: #e55c00;
-    }
-
-    .btn-outline {
-      background-color: transparent;
-      color: var(--color-primary);
-      border: 2px solid var(--color-primary);
-    }
-
-    .btn-outline:hover {
-      background-color: var(--color-primary);
-      color: var(--color-white);
-    }
-
-    /* Hero Section */
-    .hero {
-      padding: 5rem 1.5rem 3rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-    }
-
-    .hero-content h1 {
-      font-family: var(--font-heading);
-      font-weight: 800;
-      font-size: clamp(2.25rem, 4vw, 3rem);
-      line-height: 1.15;
-      color: var(--color-primary);
-      margin-bottom: 1.5rem;
-    }
-
-    .hero-content p {
-      font-size: 1.125rem;
-      color: var(--color-text);
-      margin-bottom: 2rem;
-      max-width: 500px;
-    }
-
-    .hero-ctas {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .trust-line {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--color-border);
-      font-size: 0.875rem;
-      color: #666;
-    }
-
-    /* Responsive Breakpoints */
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none; /* Collapse to burger menu in production */
-      }
-
-      .hero-grid {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-        text-align: center;
-      }
-
-      .hero-content p {
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .hero-ctas {
-        justify-content: center;
-        flex-direction: column;
-      }
-
-      .trust-line {
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-    }
+    body { font-family: 'Inter', sans-serif; color: #333333; background-color: #FAFBF9; }
+    h1, h2, h3, h4, .font-heading { font-family: 'Poppins', sans-serif; }
   </style>
 </head>
-<body>
+<body class="antialiased">
 
-  <!-- Sticky Navigation -->
-  <nav class="sticky-nav" aria-label="Main Navigation">
-    <div class="nav-container">
-      <a href="/" class="logo">eGrade<span class="logo-accent">.</span></a>
-      <ul class="nav-links">
-        <li><a href="#features">Features</a></li>
-        <li><a href="#how-it-works">How It Works</a></li>
-        <li><a href="#roles">Roles</a></li>
-        <li><a href="#pricing">Pricing</a></li>
-      </ul>
-      <div class="nav-actions">
-        <a href="#demo" class="btn btn-accent" onclick="trackTrialClick('sticky_nav')">Start Free Trial</a>
+  <!-- =========================================================================
+       STICKY TOP NAVIGATION
+  ========================================================================== -->
+  <header class="sticky top-0 z-50 bg-neutralBg/95 backdrop-blur-md border-b border-borderGray">
+    <div class="max-w-[1200px] mx-auto px-6 h-20 flex items-center justify-between">
+      
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-accent rounded">
+        <span class="font-heading font-extrabold text-2xl text-primary tracking-tight">e<span class="text-accent">Grade</span></span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-neutralText">
+        <a href="#features" class="hover:text-primary transition-colors">Features</a>
+        <a href="#how-it-works" class="hover:text-primary transition-colors">How It Works</a>
+        <a href="#pricing" class="hover:text-primary transition-colors">Pricing</a>
+        <a href="#demo" class="hover:text-primary transition-colors">Resources</a>
+      </nav>
+
+      <!-- Right CTAs -->
+      <div class="hidden md:flex items-center gap-4">
+        <a href="#demo" 
+           onclick="trackEvent('cta_click', { cta_type: 'nav_link', cta_text: 'Request Demo' })"
+           class="text-primary font-semibold text-sm hover:text-accent transition-colors">
+          Request Demo
+        </a>
+        <a href="#pricing" 
+           onclick="trackEvent('cta_click', { cta_type: 'nav_button', cta_text: 'Start Free Trial' })"
+           class="bg-accent hover:bg-[#e65c00] text-white font-semibold text-sm py-2.5 px-5 rounded-md transition-all shadow-sm focus:ring-2 focus:ring-offset-2 focus:ring-accent">
+          Start Free Trial
+        </a>
+      </div>
+
+      <!-- Mobile Menu Toggle Button -->
+      <button id="mobile-menu-btn" 
+              aria-label="Toggle Navigation Menu" 
+              class="md:hidden text-primary focus:outline-none focus:ring-2 focus:ring-accent rounded p-1">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-borderGray px-6 py-4 space-y-4 shadow-lg">
+      <a href="#features" class="block font-medium hover:text-primary">Features</a>
+      <a href="#how-it-works" class="block font-medium hover:text-primary">How It Works</a>
+      <a href="#pricing" class="block font-medium hover:text-primary">Pricing</a>
+      <a href="#demo" class="block font-medium hover:text-primary">Resources</a>
+      <div class="pt-2 border-t border-borderGray flex flex-col gap-3">
+        <a href="#demo" class="text-center font-semibold text-primary py-2 border border-primary rounded-md">Request Demo</a>
+        <a href="#pricing" class="text-center font-semibold bg-accent text-white py-2 rounded-md">Start Free Trial</a>
       </div>
     </div>
-  </nav>
+  </header>
 
-  <!-- Hero Section -->
-  <section class="hero" aria-labelledby="hero-heading">
-    <div class="hero-grid">
-      <div class="hero-content">
-        <h1 id="hero-heading">eGrade — School Management Made Simple</h1>
-        <p>All-in-one platform for attendance, grading, communication, and reporting. Purpose-built for modern CBC and educational institutions.</p>
-        <div class="hero-ctas">
-          <a href="#trial" class="btn btn-accent" onclick="trackTrialClick('hero_primary')">Start Free Trial</a>
-          <a href="#demo" class="btn btn-outline" onclick="trackTrialClick('hero_secondary')">Request Demo</a>
+  <!-- =========================================================================
+       HERO SECTION (Includes A/B Testing Switcher)
+  ========================================================================== -->
+  <section class="relative pt-12 pb-16 md:pt-20 md:pb-24 overflow-hidden">
+    <div class="max-w-[1200px] mx-auto px-6 grid lg:grid-cols-12 gap-12 items-center">
+      
+      <!-- Hero Copy -->
+      <div class="lg:col-span-7">
+        
+        <!-- A/B Test Variant Pill -->
+        <div class="inline-flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-full px-3 py-1 text-xs font-semibold text-primary mb-6">
+          <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+          <span>CBC-Ready Curriculum Framework</span>
         </div>
-        <div class="trust-line">
-          <span><strong>Trusted by 200+ schools across Kenya</strong></span>
-          <!-- Replace spans with SVG school crests in production -->
-          <span aria-hidden="true">★ 4.8/5 Rating</span>
+
+        <h1 id="hero-headline" class="font-heading font-bold text-4xl sm:text-5xl lg:text-[48px] text-primary leading-[1.15] mb-6">
+          eGrade — School Management <span class="text-accent">Made Simple</span>
+        </h1>
+        
+        <p id="hero-subheadline" class="text-lg sm:text-xl text-neutralText mb-8 max-w-xl leading-relaxed">
+          All-in-one platform for attendance, grading, communication, and reporting. Designed to save hours every week for teachers and administrators.
+        </p>
+
+        <!-- Primary & Secondary CTAs -->
+        <div class="flex flex-col sm:flex-row gap-4 mb-10">
+          <a href="#pricing" 
+             id="primary-hero-cta"
+             onclick="trackEvent('cta_click', { cta_type: 'hero_primary', cta_text: 'Start Free Trial' })"
+             class="bg-accent hover:bg-[#e65c00] text-white text-center font-heading font-semibold py-3.5 px-8 rounded-md transition-all shadow-md hover:shadow-lg focus:ring-2 focus:ring-offset-2 focus:ring-accent">
+            Start Free Trial
+          </a>
+          <a href="#demo" 
+             id="secondary-hero-cta"
+             onclick="trackEvent('cta_click', { cta_type: 'hero_secondary', cta_text: 'Request Demo' })"
+             class="border-2 border-primary text-primary hover:bg-primary hover:text-white text-center font-heading font-semibold py-3.5 px-8 rounded-md transition-all focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+            Request Demo
+          </a>
+        </div>
+
+        <!-- Trust & Social Proof Stats -->
+        <div class="flex items-center gap-4 pt-6 border-t border-borderGray">
+          <div class="flex -space-x-2">
+            <div class="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center text-xs font-bold border-2 border-neutralBg">UoN</div>
+            <div class="w-9 h-9 rounded-full bg-accent text-white flex items-center justify-center text-xs font-bold border-2 border-neutralBg">CBC</div>
+            <div class="w-9 h-9 rounded-full bg-gray-700 text-white flex items-center justify-center text-xs font-bold border-2 border-neutralBg">200+</div>
+          </div>
+          <p class="text-sm font-medium text-neutralText">
+            Trusted by <strong class="text-primary font-bold">200+ schools</strong> across Kenya
+          </p>
+        </div>
+
+        <!-- A/B TEST DEBUG TOGGLE (Remove in final production) -->
+        <div class="mt-6 pt-4 border-t border-dashed border-gray-300">
+          <span class="text-[11px] text-gray-500 uppercase tracking-wider block mb-1">A/B Testing Controls:</span>
+          <div class="flex gap-2">
+            <button onclick="setABTest('control')" class="text-xs bg-gray-200 px-2 py-1 rounded hover:bg-gray-300">Default (Control)</button>
+            <button onclick="setABTest('benefit')" class="text-xs bg-gray-200 px-2 py-1 rounded hover:bg-gray-300">Benefit-Led (Variant A)</button>
+            <button onclick="setABTest('feature')" class="text-xs bg-gray-200 px-2 py-1 rounded hover:bg-gray-300">Feature-Led (Variant B)</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Hero Visual (Dashboard UI Mockup & Illustration) -->
+      <div class="lg:col-span-5 relative">
+        <div class="relative mx-auto max-w-md lg:max-w-none">
+          <!-- Main Card Box -->
+          <div class="bg-white rounded-xl shadow-xl border border-borderGray p-5 relative z-10">
+            <div class="flex items-center justify-between border-b border-borderGray pb-3 mb-4">
+              <div class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+              </div>
+              <span class="text-xs font-semibold text-gray-400">eGrade Dashboard — CBC Portal</span>
+            </div>
+
+            <!-- Fake UI Inset: Gradebook Table -->
+            <div class="space-y-3">
+              <div class="flex justify-between items-center bg-neutralBg p-3 rounded-lg border border-borderGray">
+                <div>
+                  <div class="text-xs text-gray-500 font-medium">Grade 7 — Mathematics</div>
+                  <div class="text-sm font-bold text-primary">Formative Assessment #2</div>
+                </div>
+                <span class="text-xs font-bold bg-green-100 text-green-800 px-2.5 py-1 rounded-full">Exceeding (4)</span>
+              </div>
+
+              <!-- Fake UI Inset: Timetable Preview -->
+              <div class="bg-neutralBg p-3 rounded-lg border border-borderGray">
+                <div class="text-xs text-gray-500 mb-2">Today's Attendance Status</div>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+                    <span class="text-sm font-medium">42 / 42 Present</span>
+                  </div>
+                  <span class="text-xs text-accent font-semibold">100% Synced</span>
+                </div>
+              </div>
+
+              <!-- Fake Micro-interaction Notice -->
+              <div class="bg-accent/10 border-l-4 border-accent p-3 rounded-r-lg">
+                <p class="text-xs font-medium text-neutralText">
+                  🎉 <strong class="text-accent">Parent Notification sent:</strong> Term report cards successfully broadcasted via SMS & Portal.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Decorative Backdrop Elements -->
+          <div class="absolute -top-6 -right-6 w-24 h-24 bg-accent/20 rounded-full blur-xl -z-0"></div>
+          <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-primary/20 rounded-full blur-xl -z-0"></div>
         </div>
       </div>
-      <div class="hero-visual" aria-hidden="true">
-        <!-- Dashboard Illustration / UI Inset Mount Point -->
-        <div style="background: var(--color-white); border: 1px solid var(--color-border); border-radius: 12px; height: 380px; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 25px -5px rgba(0,64,0,0.08);">
-          <span style="color: #888; font-family: var(--font-heading); font-weight: 600;">[ High-Res CBC Dashboard UI Inset ]</span>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       KEY VALUE PROPOSITIONS (3 HORIZONTAL CARDS)
+  ========================================================================== -->
+  <section class="py-12 bg-white border-y border-borderGray">
+    <div class="max-w-[1200px] mx-auto px-6">
+      <div class="grid md:grid-cols-3 gap-8">
+        
+        <!-- Value Card 1 -->
+        <div class="p-6 rounded-xl bg-neutralBg border border-borderGray flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-4">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <h3 class="font-heading font-bold text-xl text-primary mb-2">Save Time</h3>
+            <p class="text-neutralText text-sm leading-relaxed">
+              Eliminate manual grading math and automate bulk SMS/email announcements. Reclaim up to 10 hours per week per teacher.
+            </p>
+          </div>
         </div>
+
+        <!-- Value Card 2 -->
+        <div class="p-6 rounded-xl bg-neutralBg border border-borderGray flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center text-accent mb-4">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+              </svg>
+            </div>
+            <h3 class="font-heading font-bold text-xl text-primary mb-2">Improve Outcomes</h3>
+            <p class="text-neutralText text-sm leading-relaxed">
+              Track competency trends early with interactive CBC visual analytics, automated report cards, and targeted remediation flags.
+            </p>
+          </div>
+        </div>
+
+        <!-- Value Card 3 -->
+        <div class="p-6 rounded-xl bg-neutralBg border border-borderGray flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-4">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+            </div>
+            <h3 class="font-heading font-bold text-xl text-primary mb-2">Engage Community</h3>
+            <p class="text-neutralText text-sm leading-relaxed">
+              Keep parents informed with real-time fee balances, mobile progress notifications, and direct teacher messaging.
+            </p>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
+
+  <!-- =========================================================================
+       FEATURES SECTION (EXPANDABLE ROLE-BASED ACCORDION)
+  ========================================================================== -->
+  <section id="features" class="py-20 max-w-[1200px] mx-auto px-6">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <h2 class="font-heading font-bold text-3xl sm:text-4xl text-primary mb-4">
+        Tailored Tools for Your Entire School Ecosystem
+      </h2>
+      <p class="text-neutralText text-base">
+        Select a role below to explore how eGrade simplifies daily tasks for administrators, teachers, parents, and students.
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- Accordion Buttons (Left 5 Cols) -->
+      <div class="lg:col-span-5 space-y-3" role="tablist" aria-label="Feature Roles">
+        
+        <button onclick="switchTab('admin')" id="tab-admin" 
+                class="tab-btn w-full text-left p-4 rounded-xl border-2 border-primary bg-primary text-white font-heading font-semibold flex items-center justify-between transition-all">
+          <span>👑 Admin Dashboard</span>
+          <span class="text-accent font-bold">&rarr;</span>
+        </button>
+
+        <button onclick="switchTab('gradebook')" id="tab-gradebook" 
+                class="tab-btn w-full text-left p-4 rounded-xl border-2 border-borderGray bg-white text-neutralText hover:border-primary font-heading font-semibold flex items-center justify-between transition-all">
+          <span>📚 Gradebook & Assessments</span>
+          <span class="text-gray-400 font-bold">&rarr;</span>
+        </button>
+
+        <button onclick="switchTab('attendance')" id="tab-attendance" 
+                class="tab-btn w-full text-left p-4 rounded-xl border-2 border-borderGray bg-white text-neutralText hover:border-primary font-heading font-semibold flex items-center justify-between transition-all">
+          <span>📅 Attendance & Timetables</span>
+          <span class="text-gray-400 font-bold">&rarr;</span>
+        </button>
+
+        <button onclick="switchTab('parent')" id="tab-parent" 
+                class="tab-btn w-full text-left p-4 rounded-xl border-2 border-borderGray bg-white text-neutralText hover:border-primary font-heading font-semibold flex items-center justify-between transition-all">
+          <span>👨‍👩‍👦 Parent Portal</span>
+          <span class="text-gray-400 font-bold">&rarr;</span>
+        </button>
+
+        <button onclick="switchTab('teacher')" id="tab-teacher" 
+                class="tab-btn w-full text-left p-4 rounded-xl border-2 border-borderGray bg-white text-neutralText hover:border-primary font-heading font-semibold flex items-center justify-between transition-all">
+          <span>🍎 Teacher Tools</span>
+          <span class="text-gray-400 font-bold">&rarr;</span>
+        </button>
+
+        <button onclick="switchTab('student')" id="tab-student" 
+                class="tab-btn w-full text-left p-4 rounded-xl border-2 border-borderGray bg-white text-neutralText hover:border-primary font-heading font-semibold flex items-center justify-between transition-all">
+          <span>🎓 Student Experience</span>
+          <span class="text-gray-400 font-bold">&rarr;</span>
+        </button>
+
+      </div>
+
+      <!-- Tab Content Display Area (Right 7 Cols) -->
+      <div class="lg:col-span-7 bg-white border border-borderGray rounded-2xl p-6 sm:p-8 shadow-sm min-h-[380px] flex flex-col justify-between">
+        
+        <!-- Admin Panel -->
+        <div id="panel-admin" class="tab-panel block">
+          <span class="text-xs font-bold uppercase tracking-wider text-accent">For Administrators</span>
+          <h3 class="font-heading font-bold text-2xl text-primary mt-1 mb-4">Complete Institutional Control & Security</h3>
+          <p class="text-neutralText text-sm leading-relaxed mb-6">
+            Manage your entire institution from a single dashboard. Easily configure user roles, generate Ministry-compliant reports, manage staff payrolls, and oversee school billing with automated invoicing.
+          </p>
+          <ul class="space-y-2.5 text-sm font-medium text-neutralText">
+            <li class="flex items-center gap-2"><span class="text-primary font-bold">✓</span> Role-based access control for teachers, bursars, and principals.</li>
+            <li class="flex items-center gap-2"><span class="text-primary font-bold">✓</span> Automated fee statements and M-Pesa/Bank billing reconciliations.</li>
+            <li class="flex items-center gap-2"><span class="text-primary font-bold">✓</span> One-click term promotion and class transition workflows.</li>
+          </ul>
+        </div>
+
+        <!-- Gradebook Panel -->
+        <div id="panel-gradebook" class="tab-panel hidden">
+          <span class="text-xs font-bold uppercase tracking-wider text-accent">For Academics</span>
+          <h3 class="font-heading font-bold text-2xl text-primary mt-1 mb-4">CBC-Ready Gradebook & Custom Rubrics</h3>
+          <p class="text-neutralText text-sm leading-relaxed mb-6">
+            Built from the ground up for the Kenyan Competency-Based Curriculum (CBC) as well as 8-4-4 structures. Use custom rubrics, calculate competency scores automatically, and generate comprehensive termly report cards.
+          </p>
+          <ul class="space-y-2.5 text-sm font-medium text-neutralText">
+            <li class="flex items-center gap-2"><span class="text-primary font-bold">✓</span> Pre-configured CBC evaluation scales (Exceeding, Meeting, Approaching, Below).</li>
+            <li class="flex items-center gap-2"><span class="text-primary font-bold">✓</span> Automated class-level and subject-level performance distribution charts.</li>
+            <li class="flex items-center gap-2"><span class="text-primary font-bold">✓</span> PDF Report Card generation with custom school crests and signatures.</li>
+          </ul>
+        </div>
+
+        <!-- Attendance Panel -->
+        <div id="panel-attendance" class="tab-panel hidden">
+          <span class="text-xs font-bold uppercase tracking-wider text-accent">Operations</span>
+          <h3 class="font-heading font-bold text-2xl text-primary mt-1 mb-4">QR Check-in & Clash-Free Scheduling</h3>
+          <p class="text-neutralText text-sm leading-relaxed mb-6">
+            Eliminate double-booked teachers and classroom conflicts. Build smart term timetables automatically while tracking daily classroom attendance through roll-call or ID card check-ins.
+          </p>
+          <ul class="space-y-2.5 text-sm font-medium text-neutralText">
+            <li class="flex items-center gap-2"><span class="text-primary font-bold">✓</span> Intelligent algorithm prevents teacher and room scheduling overlaps.</li>
+            <li class="flex items-center gap-2"><span class="text-primary font-bold">✓</span> Daily attendance registers sync instantly with the parent portal.</li>
+            <li class="flex items-center gap-2"><span class="text-primary font-bold">✓</span> Automated absenteeism alerts sent to guardians via SMS.</li>
+          </ul>
+        </div>
+
+        <!-- Parent Panel -->
+        <div id="panel-parent" class="tab-panel hidden">
+          <span class="text-xs font-bold uppercase tracking-wider text-accent">For Guardians</span>
+          <h3 class="font-heading font-bold text-2xl text-primary mt-1 mb-4">Transparent Progress & Instant Fee Tracking</h3>
+          <p class="text-neutralText text-sm leading-relaxed mb-6">
+            Empower parents to stay involved without overwhelming your administrative desk. Guardians can view fee balances, download receipts, monitor academic growth, and message teachers directly.
+          </p>
+          <ul class="space-y-2.5 text-sm font-medium text-neutralText">
+            <li class="flex items-center gap-2"><span class="text-primary font-bold">✓</span> Real-time fee balance checking and official receipt downloads.</li>
+            <li class="flex items-center gap-2"><span class="text-primary font-bold">✓</span> Digital sign-off for homework assignments and discipline notes.</li>
+            <li class="flex items-center gap-2"><span class="text-primary font-bold">✓</span> Accessible on any mobile browser or smartphone device.</li>
+          </ul>
+        </div>
+
+        <!-- Teacher Panel -->
+        <div id="panel-teacher" class="tab-panel hidden">
+          <span class="text-xs font-bold uppercase tracking-wider text-accent">For Teachers</span>
+          <h3 class="font-heading font-bold text-2xl text-primary mt-1 mb-4">Intuitive Lesson Planning & Grading Workflows</h3>
+          <p class="text-neutralText text-sm leading-relaxed mb-6">
+            Free up time spent on administrative paperwork. Teachers can upload lesson plans, distribute digital homework, track behavioral milestones, and submit term grades effortlessly.
+          </p>
+          <ul class="space-y-2.5 text-sm font-medium text-neutralText">
+            <li class="flex items-center gap-2"><span class="text-primary font-bold">✓</span> Streamlined grading interface designed for speed and accuracy.</li>
+            <li class="flex items-center gap-2"><span class="text-primary font-bold">✓</span> Direct messaging channel with parents for constructive feedback.</li>
+            <li class="flex items-center gap-2"><span class="text-primary font-bold">✓</span> Curriculum-aligned lesson plan storage and sharing.</li>
+          </ul>
+        </div>
+
+        <!-- Student Panel -->
+        <div id="panel-student" class="tab-panel hidden">
+          <span class="text-xs font-bold uppercase tracking-wider text-accent">For Students</span>
+          <h3 class="font-heading font-bold text-2xl text-primary mt-1 mb-4">Personalized Dashboard & Learning Resources</h3>
+          <p class="text-neutralText text-sm leading-relaxed mb-6">
+            Give students ownership of their academic journey. Learners can view their daily timetables, submit assignments online, check upcoming tests, and access revision materials.
+          </p>
+          <ul class="space-y-2.5 text-sm font-medium text-neutralText">
+            <li class="flex items-center gap-2"><span class="text-primary font-bold">✓</span> Clean, distraction-free portal showing today's assignments and classes.</li>
+            <li class="flex items-center gap-2"><span class="text-primary font-bold">✓</span> Access to teacher-uploaded learning resources and reading notes.</li>
+            <li class="flex items-center gap-2"><span class="text-primary font-bold">✓</span> Personal achievement badge tracking for academic milestones.</li>
+          </ul>
+        </div>
+
+        <!-- Empty State Microcopy Demo Box -->
+        <div class="mt-8 pt-4 border-t border-borderGray flex items-center justify-between bg-neutralBg p-3 rounded-lg">
+          <span class="text-xs text-gray-500 font-medium">✨ Example Interface Microcopy:</span>
+          <span class="text-xs italic font-semibold text-primary">"No grades yet — create your first assessment in 2 minutes."</span>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       HOW IT WORKS (3-STEP VISUAL)
+  ========================================================================== -->
+  <section id="how-it-works" class="py-20 bg-white border-y border-borderGray">
+    <div class="max-w-[1200px] mx-auto px-6">
+      
+      <div class="text-center max-w-xl mx-auto mb-16">
+        <h2 class="font-heading font-bold text-3xl sm:text-4xl text-primary mb-4">
+          How It Works
+        </h2>
+        <p class="text-neutralText text-base">
+          Get your school operational on eGrade in three straightforward steps. No complex servers or IT infrastructure required.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8 relative">
+        
+        <!-- Step 1 -->
+        <div class="text-center relative">
+          <div class="w-16 h-16 rounded-full bg-primary text-white font-heading font-bold text-xl flex items-center justify-center mx-auto mb-6 shadow-md">
+            1
+          </div>
+          <h3 class="font-heading font-bold text-xl text-primary mb-2">Sign up & Onboard</h3>
+          <p class="text-neutralText text-sm max-w-xs mx-auto">
+            Create your school account, set your academic terms, and customize your grading rubrics in minutes.
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="text-center relative">
+          <div class="w-16 h-16 rounded-full bg-primary text-white font-heading font-bold text-xl flex items-center justify-center mx-auto mb-6 shadow-md">
+            2
+          </div>
+          <h3 class="font-heading font-bold text-xl text-primary mb-2">Import & Schedule</h3>
+          <p class="text-neutralText text-sm max-w-xs mx-auto">
+            Upload your student and teacher lists via Excel/CSV. Generate clash-free timetables automatically.
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="text-center relative">
+          <div class="w-16 h-16 rounded-full bg-accent text-white font-heading font-bold text-xl flex items-center justify-center mx-auto mb-6 shadow-md">
+            3
+          </div>
+          <h3 class="font-heading font-bold text-xl text-primary mb-2">Grade & Communicate</h3>
+          <p class="text-neutralText text-sm max-w-xs mx-auto">
+            Teachers record daily attendance and grades while parents receive real-time updates on their devices.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       SOCIAL PROOF & TESTIMONIALS
+  ========================================================================== -->
+  <section class="py-20 bg-neutralBg">
+    <div class="max-w-[1200px] mx-auto px-6">
+      
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <h2 class="font-heading font-bold text-3xl sm:text-4xl text-primary mb-4">
+          Trusted by Innovative Educators
+        </h2>
+        <p class="text-neutralText text-base">
+          See how schools across Kenya are saving time and improving parent engagement with eGrade.
+        </p>
+      </div>
+
+      <!-- Testimonials Grid -->
+      <div class="grid md:grid-cols-3 gap-8 mb-12">
+        
+        <!-- Quote 1 -->
+        <div class="bg-white p-6 rounded-xl border border-borderGray shadow-sm flex flex-col justify-between">
+          <p class="text-neutralText text-sm italic mb-6">
+            "Switching to eGrade reduced our report card preparation time from three days to just two hours. The CBC grading scale templates are spot-on."
+          </p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-primary text-white font-bold flex items-center justify-center text-sm">JM</div>
+            <div>
+              <div class="font-heading font-bold text-sm text-primary">John M.</div>
+              <div class="text-xs text-gray-500">Principal, Nairobi Academy</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quote 2 -->
+        <div class="bg-white p-6 rounded-xl border border-borderGray shadow-sm flex flex-col justify-between">
+          <p class="text-neutralText text-sm italic mb-6">
+            "The parent portal has drastically cut down the number of fee-related phone calls we get every term. Parents can verify their balances instantly."
+          </p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-accent text-white font-bold flex items-center justify-center text-sm">SW</div>
+            <div>
+              <div class="font-heading font-bold text-sm text-primary">Sarah W.</div>
+              <div class="text-xs text-gray-500">Bursar, Machakos High School</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quote 3 -->
+        <div class="bg-white p-6 rounded-xl border border-borderGray shadow-sm flex flex-col justify-between">
+          <p class="text-neutralText text-sm italic mb-6">
+            "Our teachers love how easy it is to input marks on their phones. The QR check-in feature for classroom attendance is a game changer."
+          </p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-primary text-white font-bold flex items-center justify-center text-sm">DO</div>
+            <div>
+              <div class="font-heading font-bold text-sm text-primary">David O.</div>
+              <div class="text-xs text-gray-500">Head of Studies, Kisumu Junior School</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Case Study CTA Banner -->
+      <div class="bg-primary text-white rounded-2xl p-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div>
+          <h3 class="font-heading font-bold text-xl mb-1">Want to see the data behind the transformation?</h3>
+          <p class="text-white/80 text-sm">Download our comprehensive case study on how Kenyan schools reduced admin overhead by 40%.</p>
+        </div>
+        <a href="#demo" 
+           onclick="trackEvent('cta_click', { cta_type: 'case_study', cta_text: 'Download Case Study PDF' })"
+           class="bg-accent hover:bg-[#e65c00] text-white font-heading font-semibold py-3 px-6 rounded-md transition-all whitespace-nowrap shadow-md">
+          Download Case Study PDF
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       PRICING SNAPSHOT
+  ========================================================================== -->
+  <section id="pricing" class="py-20 max-w-[1200px] mx-auto px-6">
+    <div class="text-center max-w-xl mx-auto mb-12">
+      <h2 class="font-heading font-bold text-3xl sm:text-4xl text-primary mb-4">
+        Simple, Transparent Pricing
+      </h2>
+      <p class="text-neutralText text-base mb-8">
+        Choose a plan that scales with your institution. No hidden setup fees.
+      </p>
+
+      <!-- Monthly / Annual Toggle -->
+      <div class="inline-flex items-center gap-4 bg-neutralBg p-1.5 rounded-full border border-borderGray">
+        <button id="toggle-monthly" onclick="setBilling('monthly')" class="px-5 py-2 rounded-full text-xs font-semibold bg-primary text-white transition-all">
+          Monthly Billing
+        </button>
+        <button id="toggle-annual" onclick="setBilling('annual')" class="px-5 py-2 rounded-full text-xs font-semibold text-neutralText hover:text-primary transition-all">
+          Annual Billing <span class="text-accent font-bold">(Save 15%)</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Pricing 3-Column Cards -->
+    <div class="grid lg:grid-cols-3 gap-8 items-stretch">
+      
+      <!-- Starter Tier -->
+      <div class="bg-white border border-borderGray rounded-2xl p-8 flex flex-col justify-between">
+        <div>
+          <h3 class="font-heading font-bold text-xl text-primary mb-2">Starter</h3>
+          <p class="text-neutralText text-xs mb-6">For single-stream schools getting started.</p>
+          <div class="mb-6">
+            <span class="price-val font-heading font-bold text-4xl text-primary" data-monthly="KES 4,500" data-annual="KES 3,800">KES 4,500</span>
+            <span class="text-xs text-gray-500 block mt-1">per term / billed monthly</span>
+          </div>
+          <ul class="space-y-3 text-sm text-neutralText mb-8">
+            <li class="flex items-center gap-2">✓ Up to 200 Students</li>
+            <li class="flex items-center gap-2">✓ Basic CBC Gradebook</li>
+            <li class="flex items-center gap-2">✓ Standard Timetable Generator</li>
+            <li class="flex items-center gap-2">✓ SMS Parent Broadcasts (1000 free)</li>
+          </ul>
+        </div>
+        <a href="#demo" class="w-full text-center py-3 border-2 border-primary text-primary font-heading font-semibold rounded-md hover:bg-primary hover:text-white transition-all">
+          Get Started
+        </a>
+      </div>
+
+      <!-- Pro Tier (Highlighted) -->
+      <div class="bg-white border-2 border-accent rounded-2xl p-8 flex flex-col justify-between relative shadow-lg">
+        <div class="absolute -top-3.5 right-6 bg-accent text-white text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+          Most Popular
+        </div>
+        <div>
+          <h3 class="font-heading font-bold text-xl text-primary mb-2">Pro</h3>
+          <p class="text-neutralText text-xs mb-6">Full feature suite with advanced analytics.</p>
+          <div class="mb-6">
+            <span class="price-val font-heading font-bold text-4xl text-primary" data-monthly="KES 9,500" data-annual="KES 8,000">KES 9,500</span>
+            <span class="text-xs text-gray-500 block mt-1">per term / billed monthly</span>
+          </div>
+          <ul class="space-y-3 text-sm text-neutralText mb-8">
+            <li class="flex items-center gap-2">✓ Up to 800 Students</li>
+            <li class="flex items-center gap-2">✓ Comprehensive CBC + 8-4-4 Gradebook</li>
+            <li class="flex items-center gap-2">✓ Full Parent & Student Portal Access</li>
+            <li class="flex items-center gap-2">✓ QR Code Classroom Attendance</li>
+            <li class="flex items-center gap-2">✓ Automated PDF Report Card Exports</li>
+          </ul>
+        </div>
+        <a href="#demo" class="w-full text-center py-3 bg-accent text-white font-heading font-semibold rounded-md hover:bg-[#e65c00] transition-all shadow-md">
+          Try Pro Free
+        </a>
+      </div>
+
+      <!-- Enterprise Tier -->
+      <div class="bg-white border border-borderGray rounded-2xl p-8 flex flex-col justify-between">
+        <div>
+          <h3 class="font-heading font-bold text-xl text-primary mb-2">Enterprise</h3>
+          <p class="text-neutralText text-xs mb-6">For multi-campus institutions and groups.</p>
+          <div class="mb-6">
+            <span class="font-heading font-bold text-4xl text-primary">Custom</span>
+            <span class="text-xs text-gray-500 block mt-1">tailored integration contract</span>
+          </div>
+          <ul class="space-y-3 text-sm text-neutralText mb-8">
+            <li class="flex items-center gap-2">✓ Unlimited Students & Staff</li>
+            <li class="flex items-center gap-2">✓ Custom API & Accounting Integrations</li>
+            <li class="flex items-center gap-2">✓ Dedicated Kenya-based Account Manager</li>
+            <li class="flex items-center gap-2">✓ On-premise or Private Cloud hosting</li>
+          </ul>
+        </div>
+        <a href="#demo" class="w-full text-center py-3 border-2 border-primary text-primary font-heading font-semibold rounded-md hover:bg-primary hover:text-white transition-all">
+          Contact Sales
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       DEMO SIGNUP FORM SECTION
+  ========================================================================== -->
+  <section id="demo" class="py-20 bg-white border-t border-borderGray">
+    <div class="max-w-[800px] mx-auto px-6">
+      
+      <div class="text-center mb-10">
+        <h2 class="font-heading font-bold text-3xl text-primary mb-3">
+          See eGrade in Action
+        </h2>
+        <p class="text-neutralText text-sm">
+          We'll use this to set up your demo — no spam. Fill out the form below and an Elite Techs specialist will schedule a personalized walkthrough.
+        </p>
+      </div>
+
+      <form onsubmit="handleFormSubmit(event)" class="bg-neutralBg p-8 rounded-2xl border border-borderGray shadow-sm space-y-6">
+        
+        <div class="grid sm:grid-cols-2 gap-6">
+          <div>
+            <label for="school-name" class="block text-xs font-bold uppercase tracking-wider text-primary mb-2">School Name *</label>
+            <input type="text" id="school-name" required placeholder="e.g. Nairobi International Academy"
+                   class="w-full px-4 py-3 rounded-lg border border-borderGray focus:outline-none focus:ring-2 focus:ring-primary bg-white text-sm">
+          </div>
+
+          <div>
+            <label for="user-role" class="block text-xs font-bold uppercase tracking-wider text-primary mb-2">Your Role *</label>
+            <select id="user-role" required
+                    class="w-full px-4 py-3 rounded-lg border border-borderGray focus:outline-none focus:ring-2 focus:ring-primary bg-white text-sm">
+              <option value="">Select Role</option>
+              <option value="principal">Principal / Headteacher</option>
+              <option value="admin">School Administrator</option>
+              <option value="teacher">Teacher / Academic Head</option>
+              <option value="bursar">Bursar / Accounts</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-6">
+          <div>
+            <label for="email" class="block text-xs font-bold uppercase tracking-wider text-primary mb-2">Email Address *</label>
+            <input type="email" id="email" required placeholder="you@schoolname.ac.ke"
+                   class="w-full px-4 py-3 rounded-lg border border-borderGray focus:outline-none focus:ring-2 focus:ring-primary bg-white text-sm">
+          </div>
+
+          <div>
+            <label for="phone" class="block text-xs font-bold uppercase tracking-wider text-primary mb-2">Phone Number *</label>
+            <input type="tel" id="phone" required placeholder="07XX XXX XXX"
+                   class="w-full px-4 py-3 rounded-lg border border-borderGray focus:outline-none focus:ring-2 focus:ring-primary bg-white text-sm">
+          </div>
+        </div>
+
+        <div>
+          <label for="demo-time" class="block text-xs font-bold uppercase tracking-wider text-primary mb-2">Preferred Demo Time</label>
+          <input type="date" id="demo-time"
+                 class="w-full px-4 py-3 rounded-lg border border-borderGray focus:outline-none focus:ring-2 focus:ring-primary bg-white text-sm">
+        </div>
+
+        <!-- Privacy & Consent Note -->
+        <div class="flex items-start gap-3">
+          <input type="checkbox" id="consent" required class="mt-1 accent-primary">
+          <label for="consent" class="text-xs text-gray-500 leading-normal">
+            I agree to receive communications from Elite Techs regarding eGrade. <strong>We'll never share your data.</strong> Compliant with Kenya Data Protection Act (GDPR-equivalent).
+          </label>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" 
+                class="w-full bg-accent hover:bg-[#e65c00] text-white font-heading font-semibold py-4 rounded-lg transition-all shadow-md text-base">
+          Schedule My Free Walkthrough
+        </button>
+
+      </form>
+
+      <!-- Form Submission Confirmation (Hidden by Default) -->
+      <div id="form-success" class="hidden text-center p-8 bg-green-50 border border-green-200 rounded-2xl mt-6">
+        <h4 class="font-heading font-bold text-xl text-primary mb-2">Thank You! Your Request is Received.</h4>
+        <p class="text-sm text-neutralText">We will call/email you within 24 hours to confirm your walkthrough time.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       FOOTER
+  ========================================================================== -->
+  <footer class="bg-primary text-white pt-16 pb-12">
+    <div class="max-w-[1200px] mx-auto px-6">
+      
+      <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-white/10">
+        
+        <!-- Col 1: Brand & Bio -->
+        <div class="lg:col-span-2 space-y-4">
+          <a href="#" class="font-heading font-extrabold text-2xl text-white tracking-tight">e<span class="text-accent">Grade</span></a>
+          <p class="text-white/80 text-sm max-w-sm leading-relaxed">
+            School management made simple for Kenyan institutions. Streamlining attendance, CBC-ready grading, parent portals, and reporting.
+          </p>
+          <p class="text-xs text-white/60">An educational software product by <strong>Elite Techs</strong>.</p>
+        </div>
+
+        <!-- Col 2: Product -->
+        <div>
+          <h4 class="font-heading font-bold text-sm uppercase tracking-wider mb-4">Product</h4>
+          <ul class="space-y-2.5 text-sm text-white/80">
+            <li><a href="#features" class="hover:text-accent transition-colors">Features</a></li>
+            <li><a href="#pricing" class="hover:text-accent transition-colors">Pricing</a></li>
+            <li><a href="#how-it-works" class="hover:text-accent transition-colors">How It Works</a></li>
+            <li><a href="#demo" class="hover:text-accent transition-colors">Request a Demo</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Resources -->
+        <div>
+          <h4 class="font-heading font-bold text-sm uppercase tracking-wider mb-4">Resources</h4>
+          <ul class="space-y-2.5 text-sm text-white/80">
+            <li><a href="#" class="hover:text-accent transition-colors">CBC Grading Guide</a></li>
+            <li><a href="#" class="hover:text-accent transition-colors">Case Studies</a></li>
+            <li><a href="#" class="hover:text-accent transition-colors">Help Center</a></li>
+            <li><a href="#" class="hover:text-accent transition-colors">Data Security</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Contact -->
+        <div>
+          <h4 class="font-heading font-bold text-sm uppercase tracking-wider mb-4">Contact Us</h4>
+          <ul class="space-y-2.5 text-sm text-white/80">
+            <li><a href="tel:0755703469" class="hover:text-accent transition-colors">0755 703 469</a></li>
+            <li><a href="tel:0743220558" class="hover:text-accent transition-colors">0743 220 558</a></li>
+            <li><a href="https://shepherdsam.online" target="_blank" rel="noopener" class="hover:text-accent transition-colors">shepherdsam.online</a></li>
+            <li class="text-xs text-white/60 pt-1">Nairobi & Machakos, Kenya</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Bottom Legal Row -->
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-white/60 gap-4">
+        <p>&copy; 2026 Elite Techs. All rights reserved. Designed by Samuel Mutava.</p>
+        <div class="flex gap-6">
+          <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+          <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+          <a href="#" class="hover:text-white transition-colors">Security & Compliance</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       INTERACTIVE JAVASCRIPT (TABS, BILLING TOGGLE, MOBILE MENU, AB TEST)
+  ========================================================================== -->
+  <script>
+    // 1. Mobile Menu Toggle
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // 2. Feature Tabs / Accordion Switcher
+    function switchTab(role) {
+      // Hide all panels
+      document.querySelectorAll('.tab-panel').forEach(panel => {
+        panel.classList.add('hidden');
+        panel.classList.remove('block');
+      });
+      
+      // Reset button styles
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('border-primary', 'bg-primary', 'text-white');
+        btn.classList.add('border-borderGray', 'bg-white', 'text-neutralText');
+        const arrow = btn.querySelector('span:last-child');
+        if (arrow) {
+          arrow.classList.remove('text-accent');
+          arrow.classList.add('text-gray-400');
+        }
+      });
+
+      // Show selected panel
+      const targetPanel = document.getElementById(`panel-${role}`);
+      if (targetPanel) {
+        targetPanel.classList.remove('hidden');
+        targetPanel.classList.add('block');
+      }
+
+      // Highlight selected button
+      const activeBtn = document.getElementById(`tab-${role}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('border-borderGray', 'bg-white', 'text-neutralText');
+        activeBtn.classList.add('border-primary', 'bg-primary', 'text-white');
+        const arrow = activeBtn.querySelector('span:last-child');
+        if (arrow) {
+          arrow.classList.remove('text-gray-400');
+          arrow.classList.add('text-accent');
+        }
+      }
+
+      // Track feature exploration in analytics hook
+      trackEvent('feature_tab_switch', { selected_role: role });
+    }
+
+    // 3. Pricing Tier Monthly/Annual Toggle
+    function setBilling(cycle) {
+      const btnMonthly = document.getElementById('toggle-monthly');
+      const btnAnnual = document.getElementById('toggle-annual');
+      const priceElements = document.querySelectorAll('.price-val');
+
+      if (cycle === 'monthly') {
+        btnMonthly.classList.replace('text-neutralText', 'text-white');
+        btnMonthly.classList.add('bg-primary');
+        btnAnnual.classList.remove('bg-primary', 'text-white');
+        btnAnnual.classList.add('text-neutralText');
+
+        priceElements.forEach(el => {
+          if (el.dataset.monthly) el.innerText = el.dataset.monthly;
+        });
+      } else {
+        btnAnnual.classList.replace('text-neutralText', 'text-white');
+        btnAnnual.classList.add('bg-primary');
+        btnMonthly.classList.remove('bg-primary', 'text-white');
+        btnMonthly.classList.add('text-neutralText');
+
+        priceElements.forEach(el => {
+          if (el.dataset.annual) el.innerText = el.dataset.annual;
+        });
+      }
+
+      trackEvent('pricing_toggle', { billing_cycle: cycle });
+    }
+
+    // 4. Demo Signup Form Submission Hook
+    function handleFormSubmit(event) {
+      event.preventDefault();
+      
+      const schoolName = document.getElementById('school-name').value;
+      const role = document.getElementById('user-role').value;
+      const email = document.getElementById('email').value;
+
+      // Trigger analytics hook
+      trackEvent('demo_form_submitted', {
+        school_name: schoolName,
+        user_role: role,
+        email_domain: email.split('@')[1]
+      });
+
+      // Show confirmation message
+      document.getElementById('form-success').classList.remove('hidden');
+      event.target.reset();
+    }
+
+    // 5. A/B Test Live Switcher (For local testing)
+    function setABTest(variant) {
+      const headline = document.getElementById('hero-headline');
+      const subheadline = document.getElementById('hero-subheadline');
+      const primaryCta = document.getElementById('primary-hero-cta');
+      const secondaryCta = document.getElementById('secondary-hero-cta');
+
+      if (variant === 'benefit') {
+        headline.innerHTML = 'Save Hours Every Week on <span class="text-accent">School Admin</span>';
+        subheadline.innerText = 'Automate your grading, attendance, and parent communications so your teachers can focus on what matters most.';
+        primaryCta.innerText = 'Get Started Free';
+        secondaryCta.innerText = 'Schedule a Walkthrough';
+      } else if (variant === 'feature') {
+        headline.innerHTML = 'The Ultimate CBC-Ready <span class="text-accent">School Platform</span>';
+        subheadline.innerText = 'Fully compliant templates, custom rubrics, and intuitive dashboards designed specifically for the Kenyan curriculum.';
+        primaryCta.innerText = 'Try eGrade Now';
+        secondaryCta.innerText = 'See It in Action';
+      } else {
+        // Control (Default)
+        headline.innerHTML = 'eGrade — School Management <span class="text-accent">Made Simple</span>';
+        subheadline.innerText = 'All-in-one platform for attendance, grading, communication, and reporting. Designed to save hours every week for teachers and administrators.';
+        primaryCta.innerText = 'Start Free Trial';
+        secondaryCta.innerText = 'Request Demo';
+      }
+
+      trackEvent('ab_test_variant_viewed', { active_variant: variant });
+    }
+  </script>
 
 </body>
 </html>
