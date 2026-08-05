@@ -1,1 +1,511 @@
 
+SaaS POS Landing Page Design
+Premium SaaS Sidebar Design for eGrade
+API Key Extraction and Fallback
+Robust eGrade Platform Refactor
+Using the attached image, Create a cinematic landscape gospel music poster for a new gospel song titled “Wananishangaza” by a male African gospel singer. Use the uploaded artist image as the main subject. The overall mood should feel: spiritually uplifting, emotionally deep, reflective yet victorious, modern gospel aesthetic, elegant and powerful without looking crowded. Composition Landscape orientation (16:9 ratio) Artist positioned slightly off-center for a premium balanced composition Medium-close portrait shot with confident but humble expression Clean negative space for typography Minimalist premium design — avoid clutter and excessive effects Background & Atmosphere Soft dramatic lighting with heavenly golden glow Subtle rays of light emerging through clouds Deep navy blue, black, gold, and warm amber color palette Slight mist/fog atmosphere for depth Gentle particles/light dust floating for cinematic feel Modern worship-concert energy mixed with spiritual serenity Typography Main title: WANANISHANGAZA Bold, elegant, modern cinematic font Gold or soft glowing white text Smaller subtitle: “New Gospel Release” Optional artist name beneath Keep text minimal and professionally spaced Styling High-end Afrobeats/gospel album-cover quality Realistic skin tones Sharp facial detail Premium color grading Soft depth of field Smooth shadows and highlights Slight lens flare for cinematic realism Advanced Creative Direction Include: subtle cross-light symbolism integrated naturally into the lighting, faint choir silhouettes or worship atmosphere in the distant background, luxury poster finish, streaming-platform-ready design, billboard-quality composition, emotionally inspiring visual storytelling. Important Constraints Do NOT overcrowd the design Do NOT use too many text elements Avoid cheesy church flyer aesthetics Keep it modern, clean, cinematic, and internationally professional Output Quality Ultra high resolution, cinematic lighting, realistic photography style, premium gospel music branding, polished promotional poster, professional music campaign aesthetic. Emphasize intimacy, divine presence, emotional healing, and spiritual reflection.”
+Fintech Landing Page Design
+Extract Code From Message
+Integrate Paystack for Automated Transactions
+Drug Law Evaluation: Punitive vs. Holistic
+Drug Dependence and Normal Functioning
+Profile Page Design Tweak
+Profile Page Design Tweak
+React App Architecture and New Pages
+SaaS Dashboard Design for Educational Platform
+Modern Political Campaign Landing Page
+Political Website Design & Strategy
+Refine About Page for Fleshy Aesthetic
+Website Analysis and Task Readiness
+React Login UI Enhancement
+SaaS Landing Page Refinement
+Budget Analysis and Financial Overview
+React Landing Page UI/UX Redesign
+Implement Password Reset Feature
+Integrate Paystack for Automated Transactions
+Conversation with Gemini
+based on the color theme of attached image, create the best Sacco landing + login pages html file for me. The Sacco name is called JIJENGE HAPPY....
+
+send me the best premium landing page fully responsive and animated.
+
+Your HTML file for the Sacco landing and login pages is ready.
+
+HTML icon
+jijenge_happy_sacco
+ HTML 
+Open
+The layout is built using Tailwind CSS to ensure a fully responsive, modern design. The color palette extracts the deep blue, prominent red, and landscape greens directly from the provided logo theme to maintain brand consistency.
+
+It includes:
+
+A fixed, glass-effect navigation bar.
+
+An animated hero section with floating elements and a gradient backdrop.
+
+A scalable "Solutions" grid with interactive hover effects.
+
+A responsive modal-based member portal (Login) triggered by the call-to-action buttons.
+
+Custom CSS keyframes integrated seamlessly into the Tailwind configuration block for optimized load times.
+
+
+
+
+Gemini is AI and can make mistakes.
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jijenge Happy Sacco | Empowering Your Financial Future</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            blue: '#2b3180', // Extracted from shield background
+                            red: '#e3242b',  // Extracted from the text
+                            green: '#4baf4f', // Extracted from the landscape
+                            lightBlue: '#65aee0', // Extracted from mountains/sky
+                            dark: '#1a1f54', // Darker shade of brand blue
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+                        'float': 'float 6s ease-in-out infinite',
+                        'slide-in-right': 'slideInRight 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        slideInRight: {
+                            '0%': { opacity: '0', transform: 'translateX(50px)' },
+                            '100%': { opacity: '1', transform: 'translateX(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #2b3180 0%, #1a1f54 100%);
+        }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        
+        /* Modal Transitions */
+        .modal-enter { opacity: 0; }
+        .modal-enter-active { opacity: 1; transition: opacity 300ms ease-out; }
+        .modal-exit { opacity: 1; }
+        .modal-exit-active { opacity: 0; transition: opacity 300ms ease-in; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased overflow-x-hidden selection:bg-brand-red selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+                    <div class="w-10 h-10 rounded-lg bg-brand-blue flex items-center justify-center shadow-lg">
+                        <i class="fa-solid fa-hands-holding-circle text-white text-xl"></i>
+                    </div>
+                    <span class="font-extrabold text-2xl tracking-tight text-brand-blue uppercase">
+                        Jijenge <span class="text-brand-red">Happy</span>
+                    </span>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#home" class="text-gray-600 hover:text-brand-red font-semibold transition-colors">Home</a>
+                    <a href="#services" class="text-gray-600 hover:text-brand-red font-semibold transition-colors">Solutions</a>
+                    <a href="#about" class="text-gray-600 hover:text-brand-red font-semibold transition-colors">About Us</a>
+                    <button onclick="openModal()" class="bg-brand-red hover:bg-red-700 text-white px-6 py-2.5 rounded-full font-bold shadow-md shadow-brand-red/30 transition-all hover:-translate-y-0.5">
+                        Member Login
+                    </button>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button class="text-brand-blue hover:text-brand-red focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden hero-gradient">
+        <!-- Abstract Shapes -->
+        <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-brand-lightBlue rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+        <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-72 h-72 bg-brand-red rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" style="animation-delay: 2s;"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="lg:grid lg:grid-cols-12 lg:gap-16 items-center">
+                <div class="lg:col-span-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-brand-lightBlue text-sm font-semibold mb-6 opacity-0 animate-fade-in-up">
+                        <span class="w-2 h-2 rounded-full bg-brand-green animate-ping"></span>
+                        Trusted by 10,000+ Members
+                    </div>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6 opacity-0 animate-fade-in-up delay-100">
+                        Grow Your Wealth, <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-red to-orange-400">Secure Your Future</span>
+                    </h1>
+                    <p class="text-lg text-blue-100 mb-8 max-w-2xl mx-auto lg:mx-0 opacity-0 animate-fade-in-up delay-200">
+                        Join Jijenge Happy Sacco today. Experience seamless savings, transparent credit access, and unparalleled financial growth tailored for you.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start opacity-0 animate-fade-in-up delay-300">
+                        <button onclick="openModal()" class="bg-brand-red hover:bg-red-700 text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-brand-red/40 transition-all hover:-translate-y-1 text-lg flex items-center justify-center gap-2">
+                            Access Portal <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <button class="bg-white/10 hover:bg-white/20 text-white border border-white/30 px-8 py-4 rounded-full font-bold transition-all hover:-translate-y-1 text-lg backdrop-blur-sm">
+                            Learn More
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="hidden lg:block lg:col-span-6 relative opacity-0 animate-slide-in-right delay-300">
+                    <!-- Dashboard Mockup -->
+                    <div class="bg-white p-2 rounded-2xl shadow-2xl shadow-black/40 transform -rotate-2 animate-float">
+                        <div class="bg-gray-50 rounded-xl overflow-hidden border border-gray-100">
+                            <!-- Mockup Header -->
+                            <div class="bg-white px-6 py-4 border-b flex justify-between items-center">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-gray-200"></div>
+                                    <div>
+                                        <div class="h-3 w-24 bg-gray-200 rounded mb-1"></div>
+                                        <div class="h-2 w-16 bg-gray-100 rounded"></div>
+                                    </div>
+                                </div>
+                                <div class="text-brand-green font-bold text-lg">+ 14.5%</div>
+                            </div>
+                            <!-- Mockup Body -->
+                            <div class="p-6">
+                                <div class="h-4 w-32 bg-brand-blue/20 rounded mb-4"></div>
+                                <div class="text-3xl font-extrabold text-brand-blue mb-6">KES 1,245,000</div>
+                                <div class="flex gap-4 mb-6">
+                                    <div class="flex-1 bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                                        <div class="w-8 h-8 rounded-full bg-brand-red/10 flex items-center justify-center mb-2">
+                                            <i class="fa-solid fa-piggy-bank text-brand-red"></i>
+                                        </div>
+                                        <div class="h-2 w-12 bg-gray-200 rounded mb-1"></div>
+                                        <div class="h-3 w-20 bg-gray-300 rounded"></div>
+                                    </div>
+                                    <div class="flex-1 bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                                        <div class="w-8 h-8 rounded-full bg-brand-green/10 flex items-center justify-center mb-2">
+                                            <i class="fa-solid fa-chart-line text-brand-green"></i>
+                                        </div>
+                                        <div class="h-2 w-12 bg-gray-200 rounded mb-1"></div>
+                                        <div class="h-3 w-20 bg-gray-300 rounded"></div>
+                                    </div>
+                                </div>
+                                <div class="w-full h-24 bg-gradient-to-t from-brand-lightBlue/20 to-transparent rounded-lg border-b-2 border-brand-blue relative">
+                                    <!-- simple css graph line representation -->
+                                    <svg class="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 100">
+                                        <path d="M0 100 L 20 80 L 40 85 L 60 40 L 80 50 L 100 10" stroke="#2b3180" stroke-width="3" fill="none" vector-effect="non-scaling-stroke"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Wave Divider -->
+        <div class="absolute bottom-0 w-full leading-none z-0">
+            <svg class="relative block w-full h-[60px] md:h-[100px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.08,130.83,120.22,192.39,109.52C236.4,101.9,280.9,81.45,321.39,56.44Z" fill="#f9fafb"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 bg-gray-50 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-brand-red font-bold tracking-wide uppercase text-sm mb-2">Our Solutions</h2>
+                <h3 class="text-3xl md:text-4xl font-extrabold text-brand-dark mb-4">Financial Products Built for You</h3>
+                <p class="text-gray-600 text-lg">Whether you are planning for a project, an emergency, or long-term investments, we have the right portfolio.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 group">
+                    <div class="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center mb-6 group-hover:bg-brand-blue transition-colors duration-300">
+                        <i class="fa-solid fa-wallet text-3xl text-brand-blue group-hover:text-white transition-colors duration-300"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-brand-dark mb-3">Smart Savings</h4>
+                    <p class="text-gray-600 mb-6">Earn competitive dividends on your deposits while securing your financial base with our transparent saving plans.</p>
+                    <a href="#" class="text-brand-red font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all">Explore Plans <i class="fa-solid fa-arrow-right text-sm"></i></a>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 group relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-brand-green text-white text-xs font-bold px-3 py-1 rounded-bl-lg">POPULAR</div>
+                    <div class="w-16 h-16 rounded-2xl bg-red-50 flex items-center justify-center mb-6 group-hover:bg-brand-red transition-colors duration-300">
+                        <i class="fa-solid fa-hand-holding-dollar text-3xl text-brand-red group-hover:text-white transition-colors duration-300"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-brand-dark mb-3">Development Loans</h4>
+                    <p class="text-gray-600 mb-6">Access credit facilities up to 3x your savings at unbeatable interest rates to fund your business or personal projects.</p>
+                    <a href="#" class="text-brand-red font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all">Calculate Loan <i class="fa-solid fa-arrow-right text-sm"></i></a>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 group">
+                    <div class="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center mb-6 group-hover:bg-brand-green transition-colors duration-300">
+                        <i class="fa-solid fa-mobile-screen text-3xl text-brand-green group-hover:text-white transition-colors duration-300"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-brand-dark mb-3">Mobile Banking</h4>
+                    <p class="text-gray-600 mb-6">Manage your account, deposit via M-PESA, and request instant mobile loans right from your smartphone 24/7.</p>
+                    <a href="#" class="text-brand-red font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all">Get the App <i class="fa-solid fa-arrow-right text-sm"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-16 bg-brand-blue relative">
+        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-white/20">
+                <div>
+                    <div class="text-4xl md:text-5xl font-extrabold text-white mb-2">10K+</div>
+                    <div class="text-brand-lightBlue font-semibold">Active Members</div>
+                </div>
+                <div>
+                    <div class="text-4xl md:text-5xl font-extrabold text-white mb-2">3.2B</div>
+                    <div class="text-brand-lightBlue font-semibold">Total Asset Base (KES)</div>
+                </div>
+                <div>
+                    <div class="text-4xl md:text-5xl font-extrabold text-white mb-2">12%</div>
+                    <div class="text-brand-lightBlue font-semibold">Annual Dividend</div>
+                </div>
+                <div>
+                    <div class="text-4xl md:text-5xl font-extrabold text-white mb-2">24/7</div>
+                    <div class="text-brand-lightBlue font-semibold">Support & Access</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-dark pt-16 pb-8 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 rounded-md bg-brand-blue flex items-center justify-center">
+                            <i class="fa-solid fa-hands-holding-circle text-white"></i>
+                        </div>
+                        <span class="font-extrabold text-xl tracking-tight text-white uppercase">
+                            Jijenge <span class="text-brand-red">Happy</span>
+                        </span>
+                    </div>
+                    <p class="text-gray-400 mb-6 max-w-sm">
+                        Committed to uplifting members through affordable credit, robust saving schemes, and transparent financial technology.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-brand-red hover:text-white transition-colors"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-brand-red hover:text-white transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-brand-red hover:text-white transition-colors"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-bold mb-6">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Savings Plans</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Loan Calculator</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Careers</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-bold mb-6">Contact Us</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3 text-gray-400">
+                            <i class="fa-solid fa-location-dot mt-1 text-brand-red"></i>
+                            <span>Jijenge Plaza, Nairobi, Kenya</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-400">
+                            <i class="fa-solid fa-phone text-brand-red"></i>
+                            <span>+254 700 000 000</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-400">
+                            <i class="fa-solid fa-envelope text-brand-red"></i>
+                            <span>info@jijengehappy.co.ke</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                <p>&copy; 2026 Jijenge Happy Sacco. All rights reserved.</p>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal overlay -->
+    <div id="loginModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-brand-dark/80 backdrop-blur-sm transition-opacity duration-300 opacity-0">
+        <!-- Modal Content -->
+        <div class="bg-white rounded-2xl w-full max-w-md mx-4 shadow-2xl overflow-hidden transform scale-95 transition-transform duration-300" id="modalContent">
+            <!-- Modal Header -->
+            <div class="bg-brand-blue px-6 py-4 flex justify-between items-center relative overflow-hidden">
+                <!-- Abstract shape in header -->
+                <div class="absolute -right-6 -top-6 w-24 h-24 bg-white/10 rounded-full"></div>
+                
+                <h3 class="text-xl font-bold text-white relative z-10 flex items-center gap-2">
+                    <i class="fa-solid fa-lock text-brand-lightBlue"></i> Member Portal
+                </h3>
+                <button onclick="closeModal()" class="text-white/70 hover:text-white focus:outline-none relative z-10">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="p-8">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-extrabold text-brand-dark mb-2">Welcome Back</h2>
+                    <p class="text-gray-500 text-sm">Enter your credentials to access your account.</p>
+                </div>
+                
+                <form action="#" method="POST" class="space-y-5">
+                    <div>
+                        <label for="member_id" class="block text-sm font-semibold text-gray-700 mb-1">Member ID / Phone</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fa-solid fa-user text-gray-400"></i>
+                            </div>
+                            <input type="text" id="member_id" name="member_id" class="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-brand-blue transition-all bg-gray-50 focus:bg-white text-gray-800" placeholder="e.g. 12345" required>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <label for="password" class="block text-sm font-semibold text-gray-700">Password</label>
+                            <a href="#" class="text-xs font-semibold text-brand-blue hover:text-brand-red transition-colors">Forgot Password?</a>
+                        </div>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fa-solid fa-key text-gray-400"></i>
+                            </div>
+                            <input type="password" id="password" name="password" class="block w-full pl-10 pr-10 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-brand-blue transition-all bg-gray-50 focus:bg-white text-gray-800" placeholder="••••••••" required>
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-400 hover:text-gray-600">
+                                <i class="fa-solid fa-eye" id="togglePassword"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-brand-blue focus:ring-brand-blue border-gray-300 rounded cursor-pointer">
+                        <label for="remember-me" class="ml-2 block text-sm text-gray-600 cursor-pointer">
+                            Remember me
+                        </label>
+                    </div>
+                    
+                    <button type="button" class="w-full flex justify-center items-center gap-2 py-3.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-bold text-white bg-brand-red hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-red transition-all mt-4">
+                        Login to Dashboard <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    </button>
+                </form>
+                
+                <div class="mt-6 text-center">
+                    <p class="text-sm text-gray-600">
+                        Not a member yet? <a href="#" class="font-bold text-brand-blue hover:text-brand-red transition-colors">Join the Sacco</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                nav.classList.add('shadow-md');
+                nav.classList.replace('py-4', 'py-0');
+            } else {
+                nav.classList.remove('shadow-md');
+                nav.classList.replace('py-0', 'py-4');
+            }
+        });
+
+        // Modal Logic
+        const modal = document.getElementById('loginModal');
+        const modalContent = document.getElementById('modalContent');
+        
+        function openModal() {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            // Trigger reflow
+            void modal.offsetWidth;
+            modal.classList.remove('opacity-0');
+            modalContent.classList.remove('scale-95');
+            modalContent.classList.add('scale-100');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        // Close on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Password Toggle
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        
+        togglePassword.addEventListener('click', function (e) {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+    </script>
+</body>
+</html>
